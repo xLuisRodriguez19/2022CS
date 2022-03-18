@@ -1,4 +1,4 @@
-body{
+.bg-img{
     background: url("../img/red_banner_generated.png") no-repeat;
     background-size: cover;
 }
@@ -7,4 +7,12 @@ body{
 .login{
     border-radius: 35px;
     background: #FFFFFF;
+}
+
+.btn-info{
+    background: #FFFFFF;
+    border-radius: 100%;
+    position: fixed;
+    bottom: 15px;
+    right: 30px;
 }

@@ -5,8 +5,9 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <link href="/Vistas/CSS/styles.css" rel="stylesheet" type="text/css">
+    <link href="../Vistas/CSS/styles.css" rel="stylesheet" type="text/css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">    
+    <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='CSS/styles.css') }}">
 </head>
 <body class="bg-img">
     <div class="container-fluid">
@@ -17,18 +18,18 @@
                     <div class="container">
                         <div class="row">
                             <div class="col-lg-7 col-xl-6 mx-auto">
-                                <h3 class="display-4 text-center"> <img src="../Vistas/img/a89af9_8edf9915beab41cca5fd4829745ed7ed_mv2.png" width="200" height="80"></h3> <br>
-                                <form action="/Controladores/validar.php" method="POST">
+                                <h3 class="display-4 text-center"> <img src="{{url_for('static', filename='img/a89af9_8edf9915beab41cca5fd4829745ed7ed_mv2.png')}}" width="200" height="80"></h3> <br>
+                                <form action="/iniciar_sesion" method="POST">
                                     <div class="form-group mb-3"> <input id="inputEmail" name="user" type="text" placeholder="Usuario" required="" autofocus="" class="form-control rounded-pill border-0 shadow-sm px-4"> </div>
                                     <div class="form-group mb-3"> <input id="inputPassword" name="contrasena" type="password" placeholder="Contraseña" required="" class="form-control rounded-pill border-0 shadow-sm px-4 text-danger"><br> </div>
                                     <div class="form-group form-check">
                                     <label>
-                                        <input type="radio" name="radio" value="doc" required>
-                                        Docente
+                                        <input type="radio" name="radio" value="ate" required>
+                                        Atención al cliente
                                     </label>
                                     <label>
-                                        <input type="radio" name="radio" value="inst">
-                                        Instructor
+                                        <input type="radio" name="radio" value="tec">
+                                        Técnico
                                     </label>
                                     <label>
                                         <input type="radio" name="radio" value="admin">
@@ -48,7 +49,7 @@
         </div>
     </div>
     </div>
-    <footer class="text-center py-5">
+    <footer class="text-center py-5 text-white">
         2022 Derechos Reservados
     </footer>
 </body>
