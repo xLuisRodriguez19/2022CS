@@ -1,0 +1,10 @@
+body{
+    background: url("../img/red_banner_generated.png") no-repeat;
+    background-size: cover;
+}
+
+
+.login{
+    border-radius: 35px;
+    background: #FFFFFF;
+}

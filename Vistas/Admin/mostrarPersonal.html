@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+          integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        #sidebar {
+            width: 20%;
+            height: 100vh;
+            background: #343a40;
+        }
+    </style>
+</head>
+<body>
+    <div class="d-flex">
+        <div id="sidebar">
+            <div class="p-2">
+                <a href="#" class="navbar-brand text-center text-light w-100 p-4 border-bottom">
+                    "Administrador"
+                </a>
+            </div>
+            <div id="sidebar-accordion" class="accordion">
+                <div class="list-group">
+                    <a href="../Admin/mostrarPersonal.html" aria-expanded="false"
+                       class="list-group-item list-group-item-action bg-dark text-light">
+                        <i class="fa fa-tachometer mr-3" aria-hidden="true"></i>Personal
+                    </a>
+
+                    <a href="#dashboard-productos" data-toggle="collapse" aria-expanded="false"
+                       class="list-group-item list-group-item-action bg-dark text-light">
+                        <i class="fa fa-tachometer mr-3" aria-hidden="true"></i>Productos
+                    </a>
+
+                    <a href="#dashboard-ventas" data-toggle="collapse" aria-expanded="false"
+                       class="list-group-item list-group-item-action bg-dark text-light">
+                        <i class="fa fa-tachometer mr-3" aria-hidden="true"></i>Ventas
+                    </a>
+
+                    <a href="#dashboard-citas" data-toggle="collapse" aria-expanded="false"
+                       class="list-group-item list-group-item-action bg-dark text-light">
+                        <i class="fa fa-tachometer mr-3" aria-hidden="true"></i>Citas
+                    </a>
+
+                    <a href="#dashboard-Reparaciones" data-toggle="collapse" aria-expanded="false"
+                       class="list-group-item list-group-item-action bg-dark text-light">
+                        <i class="fa fa-tachometer mr-3" aria-hidden="true"></i>Reparaciones
+                    </a>
+                
+                    <a href="#dashboard-clientes" data-toggle="collapse" aria-expanded="false"
+                       class="list-group-item list-group-item-action bg-dark text-light">
+                        <i class="fa fa-tachometer mr-3" aria-hidden="true"></i>Clientes
+                    </a>
+
+                    <a href="#profile-items" data-toggle="collapse" aria-expanded="false"
+                       class="list-group-item list-group-item-action bg-dark text-light">
+                        <i class="fa fa-user mr-3" aria-hidden="true"></i>Mi Perfil
+                    </a>
+
+                </div>
+            </div>
+        </div>
+        <!--NAV-->
+        <div class="col-sm-10">
+             <!--CONTENT-->
+             <br>
+             <h1 style="text-align: center;"> LISTA DE PERSONAL</h1>
+     
+             <!--filtro de busqueda-->
+             <div class="container">
+                 <div class="row">
+                     <div class="col-lg-12 card-margin">
+                         <div class="card search-form">
+                             <div class="card-body p-0">
+                                 <form id="search-form">
+                                     <div class="row">
+                                         <div class="col-12">
+                                             <div class="row no-gutters">
+                                                 <div class="col-lg-3 col-md-3 col-sm-12 p-0">
+                                                     <select class="form-control" id="exampleFormControlSelect1">
+                                                         <option>Nombre</option>
+                                                         <option>Apellido</option>
+                                                         <option>Telefono</option>
+                                                     </select>
+                                                 </div>
+                                                 <div class="col-lg-8 col-md-6 col-sm-12 p-0">
+                                                     <input type="text" placeholder="Buscar..." class="form-control" id="search" name="search">
+                                                 </div>
+                                                 <div class="col-lg-1 col-md-3 col-sm-12 p-0">
+                                                     <button type="submit" class="btn btn-base">
+                                                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-search"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                                                     </button>
+                                                 </div>
+                                             </div>
+                                         </div>
+                                     </div>
+                                 </form>
+                             </div>
+                         </div>
+                     </div>
+                 </div>
+             </div>    
+             <!--filtro de busqueda-->
+     
+             <div class="container">
+                 <div class="row">
+                     <div class="col-lg-12">
+                         <div class="main-box no-header clearfix">
+                             <div class="main-box-body clearfix">
+                                 <div class="table-responsive">
+                                     <table class="table user-list">
+                                         <thead>
+                                             <tr>
+                                             <th><span>Nombre</span></th>
+                                             <th class="text-center"><span>Apellido</span></th>
+                                             <th class="text-center"><span>Telefono</span></th>
+                                             <th><span>RFC</span></th>
+                                             <th>&nbsp;</th>
+                                             </tr>
+                                         </thead>
+                                         <tbody>
+                                             <tr>
+                                                 <td class="text-center">
+                                                     <span class="label label-default"> Luis Guillermo </span>
+                                                 </td>
+     
+                                                 <td class="text-center">
+                                                     <span class="label label-default"> Rodriguez Hernández</span>
+                                                 </td>
+                                                 <td class="text-center">
+                                                     <span class="label label-default"> Telefono </span>
+                                                 </td>
+                                                 <td>
+                                                     <!--<a href="#"> ROHL00000A1 </a>-->
+                                                     <span class="label label-default"> ROHL00000A1 </span>
+                                                 </td>
+                                                 <td style="width: 20%;">
+                                                     <span><a class="btn btn-success btn-sm" href="../Admin/modificarPersonal.html">Ver</a></span>
+                                                     <span><a><button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#exampleModal">Eliminar</button></a></span>
+                                                 </td>
+                                             </tr>
+                                             <!-- Modal -->
+                                             <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                             <div class="modal-dialog">
+                                                 <div class="modal-content">
+                                                 <div class="modal-header">
+                                                     <h5 class="modal-title" id="exampleModalLabel">Eliminar administrador</h5>
+                                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                     <span aria-hidden="true">&times;</span>
+                                                     </button>
+                                                 </div>
+                                                 <div class="modal-body">
+                                                     ¿Desea eliminar al administrador:<br>
+                                                 </div>
+                                                 <div class="modal-footer">
+                                                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                                                     <a href="#"><button type="button" class="btn btn-danger">Eliminar</button></a>
+                                                 </div>
+                                                 </div>
+                                             </div>
+                                             </div>
+                                         </tbody>
+                                     </table>
+                                 </div>
+                             </div>
+                         </div>
+                         <span><a class="btn btn-dark btn-lg btn-block" href="agregarMaestro-admin.html">Agregar</a></span>
+                     </div>
+                 </div>
+             </div>
+             
+             
+             <!--CONTENT-->
+             </div>
+             </div>
+             
+     
+           </div>
+    </div>
+
+
+
+</body>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous">
+</script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous">
+</script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"
+        integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous">
+</script>
+</html>

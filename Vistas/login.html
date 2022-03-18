@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="/Vistas/CSS/styles.css" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">    
+</head>
+<body class="bg-img">
+    <div class="container-fluid">
+        <div class="row no-gutter">
+            <div class="col-md-6 d-none d-md-flex bg-image"></div>
+            <div class="col-md-6 py-5">
+                <div class="login d-flex align-items-center py-5">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-lg-7 col-xl-6 mx-auto">
+                                <h3 class="display-4 text-center"> <img src="../Vistas/img/a89af9_8edf9915beab41cca5fd4829745ed7ed_mv2.png" width="200" height="80"></h3> <br>
+                                <form action="/Controladores/validar.php" method="POST">
+                                    <div class="form-group mb-3"> <input id="inputEmail" name="user" type="text" placeholder="Usuario" required="" autofocus="" class="form-control rounded-pill border-0 shadow-sm px-4"> </div>
+                                    <div class="form-group mb-3"> <input id="inputPassword" name="contrasena" type="password" placeholder="Contraseña" required="" class="form-control rounded-pill border-0 shadow-sm px-4 text-danger"><br> </div>
+                                    <div class="form-group form-check">
+                                    <label>
+                                        <input type="radio" name="radio" value="doc" required>
+                                        Docente
+                                    </label>
+                                    <label>
+                                        <input type="radio" name="radio" value="inst">
+                                        Instructor
+                                    </label>
+                                    <label>
+                                        <input type="radio" name="radio" value="admin">
+                                        Administrador
+                                    </label>
+                                    </div>
+                                    <div class="custom-control custom-checkbox mb-3"> <input id="customCheck1" type="checkbox" checked class="custom-control-input"> <label for="customCheck1" class="custom-control-label">Recordar usuario</label> </div> <button type="submit" class="btn btn-danger btn-block text-uppercase mb-2 rounded-pill shadow-sm">Iniciar sesión</button>
+                                    <div class="text-center d-flex justify-content-between mt-4">
+                                        <p><a href=" " class="font-italic text-muted"> <u>¿Olvidó su contraseña?</u></a></p>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+    <footer class="text-center py-5">
+        2022 Derechos Reservados
+    </footer>
+</body>
+</html>
