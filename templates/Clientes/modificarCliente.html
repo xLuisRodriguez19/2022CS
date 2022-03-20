@@ -9,70 +9,16 @@
           integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
-    <style>
-        #sidebar {
-            width: 20%;
-            height: 150vh;
-            background: #343a40;
-        }
-    </style>
+    <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='CSS/styles.css') }}">
 </head>
 <body>
-    <div class="d-flex">
-      <div id="sidebar">
-        <div class="p-2">
-            <a href="#" class="navbar-brand text-center text-light w-100 p-4 border-bottom">
-                "Administrador"
-            </a>
-        </div>
-        <div id="sidebar-accordion" class="accordion">
-            <div class="list-group">
-                <a href="/ver_personal" aria-expanded="false"
-                   class="list-group-item list-group-item-action bg-dark text-light">
-                   <i class="bi bi-person-fill mr-3"></i>Personal
-                </a>
-
-                <a href="/ver_productos" aria-expanded="false"
-                   class="list-group-item list-group-item-action bg-dark text-light">
-                   <i class="bi bi-collection-fill mr-3"></i>Productos
-                </a>
-
-                <a href="#" aria-expanded="false"
-                   class="list-group-item list-group-item-action bg-dark text-light">
-                   <i class="bi bi-cash-coin mr-3"></i>Ventas
-                </a>
-
-                <a href="#" aria-expanded="false"
-                   class="list-group-item list-group-item-action bg-dark text-light">
-                   <i class="bi bi-calendar-date mr-3"></i>Citas
-                </a>
-
-                <a href="#" aria-expanded="false"
-                   class="list-group-item list-group-item-action bg-dark text-light">
-                   <i class="bi bi-tools mr-3"></i>Reparaciones
-                </a>
-
-                <a href="#" aria-expanded="false"
-                   class="list-group-item list-group-item-action bg-dark text-light">
-                   <i class="bi bi-person-fill mr-3"></i>Clientes
-                </a>
-
-                <a href="#" aria-expanded="false"
-                   class="list-group-item list-group-item-action bg-dark text-light">
-                   <i class="bi bi-person-fill mr-3"></i>Proveedores
-                </a>
-
-                <a href="#" aria-expanded="false"
-                   class="list-group-item list-group-item-action bg-dark text-light">
-                   <i class="bi bi-box-arrow-left mr-3"></i>Cerrar Sesión
-                </a>
-            </div>
-        </div>
-    </div>
+  {% if session['tipo'] == 'admin' %} {%include '/Navs/navAdmin.html'%} {% endif %}
+  {% if session['tipo'] == 'tec' %} <h1>es tec</h1> {%include '/Navs/navTecnico.html'%}{% endif %}
+  {% if session['tipo'] == 'aten' %} <h1>es aten</h1> {%include '/Navs/navAtencion.html'%}{% endif %}
         <!--NAV-->
         <div class="col-sm-10">
             <br>
-            <h1 style="text-align: center">MODIFICAR PERSONAL</h1>
+            <h1 style="text-align: center">MODIFICAR CLIENTE</h1>
             <div class="col">
                 <div class="row">
                   <div class="col mb-3">
@@ -107,7 +53,7 @@
                                     <div class="row">
                                       <div class="col">
                                         <div class="form-group">
-                                          <label>RFC</label>
+                                          <label>Dirección</label>
                                           <input class="form-control" type="text" placeholder=" " name="username">
                                         </div>
                                       </div>
@@ -119,49 +65,6 @@
                                           <input class="form-control" type="text" placeholder=" " name="email">
                                         </div>
                                       </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col">
-                                          <div class="form-group">
-                                            <label>Usuario</label>
-                                            <input class="form-control" type="text" placeholder=" " name="username">
-                                          </div>
-                                        </div>
-                                      </div>
-                                  </div>
-                                </div>
-                                    <div class="mb-2"><b>Contraseña</b></div>
-                                    <div class="row">
-                                      <div class="col">
-                                        <div class="form-group">
-                                          <label>Agregar Contraseña</label>
-                                          <input class="form-control" type="password" placeholder="••••••" name="password">
-                                        </div>
-                                      </div>
-                                    </div>
-                                    <div class="row">
-                                      <div class="col">
-                                        <div class="form-group">
-                                          <label>Verificar Contraseña</label>
-                                          <input class="form-control" type="password" placeholder="••••••">
-                                        </div>
-                                      </div>
-                                    </div>
-
-                                    <div class="row">
-                                        <div class="col">
-                                            <div class="form-group">
-                                                <div class="form-group">
-                                                    <label for="exampleFormControlSelect1">Tipo de usuario</label>
-                                                        <select class="form-control" id="exampleFormControlSelect1">
-                                                        <option>Tipo de usuario</option>
-                                                        <option>Administrador</option>
-                                                        <option>Técnico</option>
-                                                        <option>Personal</option>
-                                                        </select>
-                                                    </div>
-                                            </div>
-                                        </div>
                                     </div>
                                 <div class="row">
                                   <div class="col d-flex justify-content-end"><!--
@@ -189,7 +92,7 @@
                                     
                                   </div>-->
                                   <input type="submit" class="btn btn-dark" value="Guardar">
-                                  &nbsp; <span><a class="btn btn-secondary" href="/vistas/Admin/administradores-admin.php">Cancelar</a></span>
+                                  &nbsp; <span><a class="btn btn-secondary" href="/clientes">Cancelar</a></span>
                                 </div>
                               </form>
             
@@ -201,7 +104,6 @@
                   </div>
 
         </div>
-    </div>
 </body>
 
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"

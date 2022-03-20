@@ -1,5 +1,6 @@
 .bg-img{
-    background: url("../img/red_banner_generated.png") no-repeat;
+    /*background: url("../img/red_banner_generated.png") no-repeat;*/
+    background-image: linear-gradient(to right, #C70039, #FF2B2B);
     background-size: cover;
 }
 
@@ -15,4 +16,77 @@
     position: fixed;
     bottom: 15px;
     right: 30px;
+}
+
+.bg-nav{
+    background: #C70039;
+}
+
+.nav-side-menu .columna{
+    line-height: 20px;
+    display: block;
+    text-align: center;
+    font-size: 25px;
+    background-color:#C70039;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+.nav-side-menu{
+    overflow: auto;
+    font-size: 14px;
+    font-weight: 900;
+    position: fixed;
+    top: 0px;
+    padding-left: 0px;
+    height: 150%;
+    width: 17%;
+    color: #C70039
+}
+
+.nav-side-menu .brand{
+    line-height: 20px;
+    display: block;
+    text-align: center;
+    font-size: 14px;
+    background-color:#C70039;
+}
+
+.nav-side-menu .toggle-btn{
+    display: none;
+}
+
+.nav-side-menu ul, .nav-side-menu li{
+    list-style: none;
+    line-height: 30px;
+    padding: 0px;
+    margin: 0px;
+    cursor: pointer;
+}
+
+.nav-side-menu li{
+    padding-left: 0px;
+    border-left: 3px solid #900C3F;
+    border-bottom: 1px solid #900C3F;
+}
+
+.nav-side-menu li a{
+    text-decoration: none;
+    color: #FFFFFF;
+}
+
+.nav-side-menu li a i{
+    padding-left: 10px;
+    width: 20px;
+    padding-right: 20px;
+}
+
+.nav-side-menu li:hover{
+    border-left: 3px solid #900C3F;
+    background-color: #900C3F;
+    -webkit-transition: all 1s ease;
+    -moz-transition: all 1s ease;
+    -o-transition: all 1s ease;
+    -ms-transition: all 1s ease;
+    transition: all 1s ease;
 }
