@@ -13,14 +13,12 @@
 </head>
 <body>
     <div class="nava">
-        <h1>a</h1>
     </div>
     {% if session['tipo'] == 'admin' %} {%include '/Navs/navAdmin.html'%} {% endif %}
     {% if session['tipo'] == 'tec' %} <h1>es tec</h1> {%include '/Navs/navTecnico.html'%}{% endif %}
     {% if session['tipo'] == 'aten' %} <h1>es aten</h1> {% endif %}
         <!--NAV-->
     <div class="col-sm-10">
-        <h1>{{session['tipo']}}</h1>
     </div>
 </body>
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"

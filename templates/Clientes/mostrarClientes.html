@@ -14,8 +14,8 @@
 <body>
     <div>
         {% if session['tipo'] == 'admin' %} {%include '/Navs/navAdmin.html'%} {% endif %}
-    {% if session['tipo'] == 'tec' %} <h1>es tec</h1> {%include '/Navs/navTecnico.html'%}{% endif %}
-    {% if session['tipo'] == 'aten' %} <h1>es aten</h1> {%include '/Navs/navAtencion.html'%}{% endif %}
+        {% if session['tipo'] == 'tec' %} <h1>es tec</h1> {%include '/Navs/navTecnico.html'%}{% endif %}
+        {% if session['tipo'] == 'ate' %} <h1>es ate</h1> {%include '/Navs/navAtencion.html'%}{% endif %}
         <!--NAV-->
         <div class="col-sm-10">
              <!--CONTENT-->
