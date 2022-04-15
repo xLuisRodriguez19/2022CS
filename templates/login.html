@@ -1,14 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link href="../Vistas/CSS/styles.css" rel="stylesheet" type="text/css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">    
-    <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='CSS/styles.css') }}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css"
+        integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='CSS/styles.css') }}">
 </head>
+
 <body class="bg-img">
     <div class="container-fluid">
         <div class="row no-gutter">
@@ -18,27 +21,45 @@
                     <div class="container">
                         <div class="row">
                             <div class="col-lg-7 col-xl-6 mx-auto bg-red">
-                                <h3 class="display-4 text-center"> <img src="{{url_for('static', filename='img/a89af9_8edf9915beab41cca5fd4829745ed7ed_mv2.png')}}" width="200" height="80"></h3> <br>
+                                <h3 class="display-4 text-center"> <img
+                                        src="{{url_for('static', filename='img/a89af9_8edf9915beab41cca5fd4829745ed7ed_mv2.png')}}"
+                                        width="200" height="80"></h3> <br>
                                 <form action="/iniciar_sesion" method="POST">
-                                    <div class="form-group mb-3"> <input id="inputEmail" name="user" type="text" placeholder="Usuario" required="" autofocus="" class="form-control rounded-pill border-0 shadow-sm px-4"> </div>
-                                    <div class="form-group mb-3"> <input id="inputPassword" name="contrasena" type="password" placeholder="Contraseña" required="" class="form-control rounded-pill border-0 shadow-sm px-4 text-danger"><br> </div>
-                                    <div class="form-group form-check">
-                                    <label>
-                                        <input type="radio" name="radio" value="ate" required>
-                                        Atención al cliente
-                                    </label>
-                                    <label>
-                                        <input type="radio" name="radio" value="tec">
-                                        Técnico
-                                    </label>
-                                    <label>
-                                        <input type="radio" name="radio" value="admin">
-                                        Administrador
-                                    </label>
+                                    {% if error %}
+                                    <div class="form-group mb-3 text-center"> 
+                                        <span class="alert alert-danger"> {{error}}</span>
                                     </div>
-                                    <div class="custom-control custom-checkbox mb-3"> <input id="customCheck1" type="checkbox" checked class="custom-control-input"> <label for="customCheck1" class="custom-control-label">Recordar usuario</label> </div> <button type="submit" class="btn btn-danger btn-block text-uppercase mb-2 rounded-pill shadow-sm">Iniciar sesión</button>
+                                    {% endif %}
+                                    <div class="form-group mb-3"> <input id="inputEmail" name="user" type="text"
+                                            placeholder="Usuario" required="" autofocus=""
+                                            class="form-control rounded-pill border-0 shadow-sm px-4"> </div>
+                                    <div class="form-group mb-3"> <input id="inputPassword" name="contrasena"
+                                            type="password" placeholder="Contraseña" required=""
+                                            class="form-control rounded-pill border-0 shadow-sm px-4 text-danger"><br>
+                                    </div>
+                                    <div class="form-group form-check">
+                                        <label>
+                                            <input type="radio" name="radio" value="ate" required>
+                                            Atención al cliente
+                                        </label>
+                                        <label>
+                                            <input type="radio" name="radio" value="tec">
+                                            Técnico
+                                        </label>
+                                        <label>
+                                            <input type="radio" name="radio" value="admin">
+                                            Administrador
+                                        </label>
+                                    </div>
+                                    <div class="custom-control custom-checkbox mb-3"> <input id="customCheck1"
+                                            type="checkbox" checked class="custom-control-input"> <label
+                                            for="customCheck1" class="custom-control-label">Recordar usuario</label>
+                                    </div> <button type="submit"
+                                        class="btn btn-danger btn-block text-uppercase mb-2 rounded-pill shadow-sm">Iniciar
+                                        sesión</button>
                                     <div class="text-center d-flex justify-content-between mt-4">
-                                        <p><a href=" " class="font-italic text-muted"> <u>¿Olvidó su contraseña?</u></a></p>
+                                        <p><a href=" " class="font-italic text-muted"> <u>¿Olvidó su contraseña?</u></a>
+                                        </p>
                                     </div>
                                 </form>
                             </div>
@@ -53,4 +74,5 @@
         2022 Derechos Reservados
     </footer>
 </body>
+{% block script %} {% endblock %}
 </html>

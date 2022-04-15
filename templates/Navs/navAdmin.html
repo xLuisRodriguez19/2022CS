@@ -65,65 +65,70 @@
 <div class="row">
    <div class="col-sm-2">
 
-   <div class="nav-side-menu ">
-       <div class="brand"><img src="{{url_for('static', filename='img/a89af9_8edf9915beab41cca5fd4829745ed7ed_mv2.png')}}" width="50%" height=auto></div>
-       <i class="fa fa-bars fa-2x toggle-btn" data-toggle="collapse" data-target="#menu-content"></i>
-           <br>
-           <div class="">
-               <h4 style="text-align: center;">Administrador</h4>
-           </div>    
-           <br>
-           <div class="menu-list">
-               <ul id="menu-content" class="menu-content">
-                   <li>
-                     <a href="/ver_personal" aria-expanded="false">
-                        <i class="bi bi-person-fill mr-3"></i>Personal
-                     </a>
-                  </li>
-                   <li>
-                     <a href="/ver_productos" aria-expanded="false">
-                        <i class="bi bi-collection-fill mr-3"></i>Productos
-                     </a>
-                       </li>
-                  
-                   <li>
-                     <a href="/ventas" aria-expanded="false">
-                        <i class="bi bi-cash-coin mr-3"></i>Ventas
-                     </a>
-                   </li>
-   
-                    <li>
-                     <a href="/citas" aria-expanded="false">
-                        <i class="bi bi-calendar-date mr-3"></i>Citas
-                     </a>
-                   </li>
+      <div class="nav-side-menu ">
+         <div class="brand"><img
+               src="{{url_for('static', filename='img/a89af9_8edf9915beab41cca5fd4829745ed7ed_mv2.png')}}" width="50%"
+               height=auto></div>
+         <i class="fa fa-bars fa-2x toggle-btn" data-toggle="collapse" data-target="#menu-content"></i>
+         <br>
+         <div class="">
+            <h4 style="text-align: center;">Administrador</h4>
+            {% if name %}
+            <h5 style="text-align: center;">¡Hola {{ name }}!</h5>
+            {% endif %}
+         </div>
+         <br>
+         <div class="menu-list">
+            <ul id="menu-content" class="menu-content">
+               <li>
+                  <a href="/ver_personal" aria-expanded="false">
+                     <i class="bi bi-person-fill mr-3"></i>Personal
+                  </a>
+               </li>
+               <li>
+                  <a href="/ver_productos" aria-expanded="false">
+                     <i class="bi bi-collection-fill mr-3"></i>Productos
+                  </a>
+               </li>
 
-                   <li>
-                     <a href="/reparaciones" aria-expanded="false">
-                        <i class="bi bi-tools mr-3"></i>Reparaciones
-                     </a>
-                     </li>
+               <li>
+                  <a href="/ventas" aria-expanded="false">
+                     <i class="bi bi-cash-coin mr-3"></i>Ventas/Compras
+                  </a>
+               </li>
 
-                     <li>
-                        <a href="/clientes" aria-expanded="false">
-                           <i class="bi bi-person-fill mr-3"></i>Clientes
-                        </a>
-                     </li>
+               <li>
+                  <a href="/citas" aria-expanded="false">
+                     <i class="bi bi-calendar-date mr-3"></i>Citas
+                  </a>
+               </li>
 
-                     <li>
-                        <a href="/proveedores" aria-expanded="false">
-                           <i class="bi bi-person-fill mr-3"></i>Proveedores
-                        </a>
-                     </li>
+               <li>
+                  <a href="/reparaciones" aria-expanded="false">
+                     <i class="bi bi-tools mr-3"></i>Reparaciones
+                  </a>
+               </li>
 
-                   <div class="nav-item-divider" ></div>
-                   <li>
-                     <a href="/cerrar_sesion" aria-expanded="false">
-                        <i class="bi bi-box-arrow-left mr-3"></i>Cerrar Sesión
-                     </a>
-                   </li>
-                  </ul>
+               <li>
+                  <a href="/clientes" aria-expanded="false">
+                     <i class="bi bi-person-fill mr-3"></i>Clientes
+                  </a>
+               </li>
 
-               </div>
-              </div>
-          </div>
+               <li>
+                  <a href="/proveedores" aria-expanded="false">
+                     <i class="bi bi-person-fill mr-3"></i>Proveedores
+                  </a>
+               </li>
+
+               <div class="nav-item-divider"></div>
+               <li>
+                  <a href="/cerrar_sesion" aria-expanded="false">
+                     <i class="bi bi-box-arrow-left mr-3"></i>Cerrar Sesión
+                  </a>
+               </li>
+            </ul>
+
+         </div>
+      </div>
+   </div>

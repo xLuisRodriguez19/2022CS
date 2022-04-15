@@ -31,36 +31,30 @@
                           </div>
                           <div class="tab-content pt-3">
                             <div class="tab-pane active">
-                              <form class="form" novalidate="" action="" method="POST">
+                              <form class="form" novalidate="" action="/ins_prod" method="POST" enctype="multipart/form-data">
                                 <div class="row">
                                   <div class="col">
                                     <div class="row">
                                       <div class="col">
                                         <div class="form-group">
                                           <label>Código del Producto</label>
-                                          <input class="form-control" type="text" name="name" placeholder=" " value=" ">
+                                          <input class="form-control" type="text" name="cod" placeholder=" " value="">
                                         </div>
                                       </div>
                                     </div>
                                     <div class="row">
-                                        <div class="col-6">
+                                        <div class="col">
                                           <div class="form-group">
                                             <label>Imagen</label>
-                                            <input class="form-control" type="file" placeholder=" " name="username">
+                                            <input class="form-control" type="file" name="archivo" placeholder=" " name="username">
                                           </div>
                                         </div>
-                                        <div class="col-6">
-                                            <div class="form-group">
-                                              <label>Imagen</label>
-                                              <input class="form-control" type="image" placeholder="aa" name="imagen">
-                                            </div>
-                                          </div>
                                       </div>
                                     <div class="row">
                                         <div class="col">
                                           <div class="form-group">
                                             <label>Nombre</label>
-                                            <input class="form-control" type="text" placeholder=" " name="username">
+                                            <input class="form-control" type="text" placeholder=" " name="name">
                                           </div>
                                         </div>
                                       </div>
@@ -68,7 +62,7 @@
                                       <div class="col">
                                         <div class="form-group">
                                           <label>Existencia</label>
-                                          <input class="form-control" type="text" placeholder=" " name="username">
+                                          <input class="form-control" type="number" placeholder=" " name="cant">
                                         </div>
                                       </div>
                                     </div>
@@ -76,7 +70,7 @@
                                       <div class="col">
                                         <div class="form-group">
                                           <label>Costo</label>
-                                          <input class="form-control" type="text" placeholder=" " name="email">
+                                          <input class="form-control" type="number" placeholder=" " name="costo">
                                         </div>
                                       </div>
                                     </div>
@@ -85,11 +79,11 @@
                                             <div class="form-group">
                                                 <div class="form-group">
                                                     <label for="exampleFormControlSelect1">Proveedor</label>
-                                                        <select class="form-control" id="exampleFormControlSelect1">
-                                                        <option></option>
-                                                        <option>Administrador</option>
-                                                        <option>Técnico</option>
-                                                        <option>Personal</option>
+                                                        <select class="form-control" name="codP" id="exampleFormControlSelect1">
+                                                        <option>Seleccione un proveedor</option>
+                                                        {% for u in data%}
+                                                        <option value="{{u.0}}">{{u.1}}</option>
+                                                        {% endfor %}
                                                         </select>
                                                     </div>
                                             </div>

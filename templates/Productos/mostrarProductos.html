@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
     <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='CSS/styles.css') }}">
+    <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='uploads') }}">
 </head>
 <body>
     {% if session['tipo'] == 'admin' %} {%include '/Navs/navAdmin.html'%} {% endif %}
@@ -66,7 +67,7 @@
                                      <table class="table user-list">
                                          <thead>
                                              <tr>
-                                             <th><span></span></th>
+                                             <th><span>Producto</span></th>
                                              <th class="text-center"><span>Código</span></th>
                                              <th class="text-center"><span>Descripción</span></th>
                                              <th><span>Costo</span></th>
@@ -74,21 +75,23 @@
                                              </tr>
                                          </thead>
                                          <tbody>
+                                            {% for u in data%}
                                              <tr>
+                                                <td style=" width: 25%;">
+                                                    <!--<a href="#"> ROHL00000A1 </a>-->
+                                                   <img style="height: 25%; width: 25%;" src="../{{u.8}}" alt="">
+                                                </td>
                                                  <td class="text-center">
-                                                     <span class="label label-default"> </span>
+                                                     <span class="label label-default"> {{u.0}}</span>
                                                  </td>
      
                                                  <td class="text-center">
-                                                     <span class="label label-default"> </span>
+                                                     <span class="label label-default"> {{u.1}}</span>
                                                  </td>
                                                  <td class="text-center">
-                                                     <span class="label label-default"> </span>
+                                                     <span class="label label-default"> {{u.3}}</span>
                                                  </td>
-                                                 <td>
-                                                     <!--<a href="#"> ROHL00000A1 </a>-->
-                                                     <span class="label label-default"> </span>
-                                                 </td>
+                                                 
                                                  <td style="width: 20%;">
                                                      <span><a class="btn btn-success btn-sm" href="{{ url_for('mod_productos') }}">Ver</a></span>
                                                      <span><a><button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#exampleModal">Eliminar</button></a></span>
@@ -114,12 +117,12 @@
                                                  </div>
                                              </div>
                                              </div>
+                                             {% endfor %}
                                          </tbody>
                                      </table>
                                  </div>
                              </div>
                          </div>
-                         <span><a class="btn btn-dark btn-lg btn-block" href="{{ url_for('reg_productos') }}">Agregar</a></span>
                      </div>
                  </div>
              </div>

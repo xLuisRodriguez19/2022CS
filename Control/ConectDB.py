@@ -1,4 +1,4 @@
-from flask import Flask
+"""from flask import Flask
 from flaskext.mysql import MySQL
 #from flask_mysqldb import MySQL
 
@@ -14,3 +14,10 @@ mysql = MySQL(app, prefix='mysql', host='localhost', user='root', password='pass
 def conectar():
     mycursor = mysql.get_db().cursor()
     return mycursor
+    """
+
+import mysql.connector
+miConexion = mysql.connector.connect( host='localhost', user= 'root', passwd='root', db='energuia' )
+
+def conectar(self):
+    return miConexion.cursor()

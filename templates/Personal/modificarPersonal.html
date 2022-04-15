@@ -41,7 +41,7 @@
                             <div class="col">
                               <div class="form-group">
                                 <label>Nombre(s)</label>
-                                <input class="form-control" type="text" name="name" placeholder=" " value=" ">
+                                <input class="form-control" type="text" name="name" placeholder=" " value={{info.0}}>
                               </div>
                             </div>
                           </div>
@@ -49,7 +49,7 @@
                             <div class="col">
                               <div class="form-group">
                                 <label>Apellido(s)</label>
-                                <input class="form-control" type="text" placeholder=" " name="username">
+                                <input class="form-control" type="text" placeholder=" " name="apellido" value={{info.1}}>
                               </div>
                             </div>
                           </div>
@@ -57,7 +57,7 @@
                             <div class="col">
                               <div class="form-group">
                                 <label>RFC</label>
-                                <input class="form-control" type="text" placeholder=" " name="username">
+                                <input class="form-control" type="text" placeholder=" " name="rfc" value={{info.2}}>
                               </div>
                             </div>
                           </div>
@@ -65,7 +65,7 @@
                             <div class="col">
                               <div class="form-group">
                                 <label>Teléfono</label>
-                                <input class="form-control" type="text" placeholder=" " name="email">
+                                <input class="form-control" type="text" placeholder=" " name="tel" value={{info.3}}>
                               </div>
                             </div>
                           </div>
@@ -73,7 +73,7 @@
                             <div class="col">
                               <div class="form-group">
                                 <label>Usuario</label>
-                                <input class="form-control" type="text" placeholder=" " name="username">
+                                <input class="form-control" type="text" placeholder=" " name="username" value={{info.4}}>
                               </div>
                             </div>
                           </div>
@@ -104,9 +104,24 @@
                               <label for="exampleFormControlSelect1">Tipo de usuario</label>
                               <select class="form-control" id="exampleFormControlSelect1">
                                 <option>Tipo de usuario</option>
-                                <option>Administrador</option>
+                                {% if info.6 == 1%}
+                                
+                                <option selected>Personal</option>
                                 <option>Técnico</option>
+                                <option>Administrador</option>
+                                {% endif %}
+
+                                {% if info.6 == 2%}
                                 <option>Personal</option>
+                                <option selected>Técnico</option>
+                                <option>Administrador</option>
+                                {% endif %}
+
+                                {% if info.6 == 3%}
+                                <option>Personal</option>
+                                <option>Técnico</option>
+                                <option selected>Administrador</option>
+                                {% endif %}
                               </select>
                             </div>
                           </div>

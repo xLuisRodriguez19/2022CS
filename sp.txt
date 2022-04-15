@@ -1,0 +1,42 @@
+USE `energuia`$$
+CREATE PROCEDURE `Compra` (in id varchar(10), n varchar(255) , c int, p double(10,2), img blob, idp varchar(15), idu varchar(255), fecha date, hora time, des varchar(255), sub decimal(10,2), total double(10,2))
+BEGIN
+DECLARE s int;
+DECLARE oldCant int;
+DECLARE newCant int;
+SET s = (SELECT IF( EXISTS( SELECT * FROM producto WHERE idprod =  id), 1, 0) as result);
+if s = 1 then 
+	SET oldCant = (SELECT CantidadP FROM PRODUCTO WHERE IDprod = id);
+    SET newCant = oldCant+c;
+	UPDATE Producto SET CantidadP = newCant WHERE IDprod = id;
+else
+	INSERT INTO Producto VALUES(id, n , c , p , img , idp, DEFAULT );
+END IF;
+INSERT INTO Compras (IDuser, IDprov, IDprod, cant, fecha, hora, descripcion, subtotal, neto) VALUES(idu, idp, id, c, fecha, hora, des, sub, total);
+END$$
+
+CALL Compra('000001', 'CABLE', 10, 150.00, NULL, 'ASE10','ROHL00', "2022-04-11", '07:30:46', 'hola', 150.00, 174.00)
+
+-------------------------------------------------------------------------------------------
+USE `energuia`;
+DROP procedure IF EXISTS `Venta`;
+
+DELIMITER $$
+USE `energuia`$$
+CREATE PROCEDURE `Venta` (in idu varchar(255), idc varchar(15), idp varchar(255), c int, fecha date, hora time, des varchar(255), sub decimal(10,2), total double(10,2))
+BEGIN
+DECLARE s int;
+DECLARE oldCant int;
+DECLARE newCant int;
+SET s = (SELECT IF( EXISTS( SELECT * FROM producto WHERE idprod =  idp), 1, 0) as result);
+if s = 1 then 
+	SET oldCant = (SELECT CantidadP FROM PRODUCTO WHERE IDprod = idp);
+    SET newCant = oldCant-c;
+	UPDATE Producto SET CantidadP = newCant WHERE IDprod = idp;
+else
+	select 'a' as 'texto';
+END IF;
+INSERT INTO Ventas (IDuser, IDcliente, IDprod, cant, fecha, hora, descripcion, subtotal, neto) VALUES(idu, idc , idp , c, fecha , hora, des, sub , total);
+END$$
+
+CALL Venta('ROHL00', '6441000102', '000001', 2, "2022-04-11", '08:30:46', 'hola', 150.00, 174.00)

@@ -68,6 +68,9 @@
          <br>
          <div class="">
             <h4 style="text-align: center;">Atención</h4>
+            {% if name %}
+            <h5 style="text-align: center;">¡Hola {{ name }}!</h5>
+            {% endif %}
          </div>
          <br>
          <div class="menu-list">
@@ -85,7 +88,7 @@
 
                <li>
                   <a href="/ventas" aria-expanded="false">
-                     <i class="bi bi-cash-coin mr-3"></i>Ventas
+                     <i class="bi bi-cash-coin mr-3"></i>Ventas/Compras
                   </a>
                </li>
 

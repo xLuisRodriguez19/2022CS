@@ -31,14 +31,14 @@
                           </div>
                           <div class="tab-content pt-3">
                             <div class="tab-pane active">
-                              <form class="form" novalidate="" action="" method="POST">
+                              <form class="form" novalidate="" action="/ins_personal" method="POST">
                                 <div class="row">
                                   <div class="col">
                                     <div class="row">
                                       <div class="col">
                                         <div class="form-group">
                                           <label>Nombre(s)</label>
-                                          <input class="form-control" type="text" name="name" placeholder=" " value=" ">
+                                          <input class="form-control" type="text" name="name" placeholder=" ">
                                         </div>
                                       </div>
                                     </div>
@@ -46,7 +46,7 @@
                                         <div class="col">
                                           <div class="form-group">
                                             <label>Apellido(s)</label>
-                                            <input class="form-control" type="text" placeholder=" " name="username">
+                                            <input class="form-control" type="text" placeholder=" " name="ape">
                                           </div>
                                         </div>
                                       </div>
@@ -54,7 +54,7 @@
                                       <div class="col">
                                         <div class="form-group">
                                           <label>RFC</label>
-                                          <input class="form-control" type="text" placeholder=" " name="username">
+                                          <input class="form-control" type="text" placeholder=" " name="rfc">
                                         </div>
                                       </div>
                                     </div>
@@ -62,7 +62,7 @@
                                       <div class="col">
                                         <div class="form-group">
                                           <label>Teléfono</label>
-                                          <input class="form-control" type="text" placeholder=" " name="email">
+                                          <input class="form-control" type="text" placeholder=" " name="tel">
                                         </div>
                                       </div>
                                     </div>
@@ -99,7 +99,7 @@
                                             <div class="form-group">
                                                 <div class="form-group">
                                                     <label for="exampleFormControlSelect1">Tipo de usuario</label>
-                                                        <select class="form-control" id="exampleFormControlSelect1">
+                                                        <select class="form-control" id="exampleFormControlSelect1" name="tipo">
                                                         <option>Tipo de usuario</option>
                                                         <option>Administrador</option>
                                                         <option>Técnico</option>
