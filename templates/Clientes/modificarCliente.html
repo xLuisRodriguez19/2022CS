@@ -13,8 +13,8 @@
 </head>
 <body>
   {% if session['tipo'] == 'admin' %} {%include '/Navs/navAdmin.html'%} {% endif %}
-  {% if session['tipo'] == 'tec' %} <h1>es tec</h1> {%include '/Navs/navTecnico.html'%}{% endif %}
-  {% if session['tipo'] == 'aten' %} <h1>es aten</h1> {%include '/Navs/navAtencion.html'%}{% endif %}
+  {% if session['tipo'] == 'tec' %}{%include '/Navs/navTecnico.html'%}{% endif %}
+  {% if session['tipo'] == 'aten' %}{%include '/Navs/navAtencion.html'%}{% endif %}
         <!--NAV-->
         <div class="col-sm-10">
             <br>
@@ -38,7 +38,7 @@
                                       <div class="col">
                                         <div class="form-group">
                                           <label>Nombre(s)</label>
-                                          <input class="form-control" type="text" name="name" placeholder=" " value=" ">
+                                          <input class="form-control" type="text" name="name" placeholder=" " value="{{data.1}}">
                                         </div>
                                       </div>
                                     </div>
@@ -46,7 +46,7 @@
                                         <div class="col">
                                           <div class="form-group">
                                             <label>Apellido(s)</label>
-                                            <input class="form-control" type="text" placeholder=" " name="username">
+                                            <input class="form-control" type="text" placeholder=" " name="username" value="{{data.2}}">
                                           </div>
                                         </div>
                                       </div>
@@ -54,7 +54,7 @@
                                       <div class="col">
                                         <div class="form-group">
                                           <label>Dirección</label>
-                                          <input class="form-control" type="text" placeholder=" " name="username">
+                                          <input class="form-control" type="text" placeholder=" " name="username" value="{{data.3}}">
                                         </div>
                                       </div>
                                     </div>
@@ -62,7 +62,7 @@
                                       <div class="col">
                                         <div class="form-group">
                                           <label>Teléfono</label>
-                                          <input class="form-control" type="text" placeholder=" " name="email">
+                                          <input class="form-control" type="text" placeholder=" " name="email" value="{{data.0}}">
                                         </div>
                                       </div>
                                     </div>

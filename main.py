@@ -4,6 +4,7 @@ from flask_mysqldb import MySQL
 from flask import session
 import os
 from werkzeug.utils import secure_filename
+import time
 #from ConectDB  import conectar
 app = Flask(__name__)
 app.secret_key = b'_5#y2L"F4Q8z\n\xec]/'
@@ -180,7 +181,6 @@ def ins_prod():
         a.append(request.form['cant'])
         a.append(request.form['costo'])
         a.append(request.form['codP'])
-        import time
         cursor = mysql.connection.cursor()
         mysql.connection.cursor()
         total =(int(a[4])*.16)+int(a[4])
@@ -217,23 +217,69 @@ def ver_venta():
 
 
 ### CITAS
-@app.route('/citas', methods=['GET'])
+@app.route('/citas')
 def citas():
-    return render_template('/Citas/mostrarCitas.html')
+    cursor = mysql.connection.cursor()
+    mysql.connection.cursor()
+    print("CALL getCitas")
+    mysql.connection.commit()
+    if cursor.execute("CALL getCitas") > 0:
+        a = cursor.fetchall()
+        print("a",a)
+        return render_template('/Citas/mostrarCitas.html', data=a)
+    else:
+        return render_template('/Citas/mostrarCitas.html')
 
-@app.route('/mod_cita', methods=['GET'])
+@app.route('/mod_cita')
 def mod_cita():
     return render_template('/Citas/modificarCita.html')
 
-@app.route('/reg_cita', methods=['GET'])
+@app.route('/reg_cita')
 def reg_cita():
-    return render_template('/Citas/registrarCita.html')
+    cursor = mysql.connection.cursor()
+    print("CALL getNumCita()")
+    mysql.connection.commit()
+    if cursor.execute("CALL getNumCita()") > 0:
+        a = cursor.fetchone()
+    return render_template('/Citas/registrarCita.html', data=a[0])
+
+@app.route('/ins_cita', methods=['POST'])
+def ins_cita():
+    if request.method:
+        a = []
+        a.append(request.form['cliente'])
+        a.append(request.form['dir'])
+        a.append(request.form['tel'])
+        a.append(request.form['fecha'])
+        a.append(request.form['hora'])
+        a.append(request.form['des'])
+        cursor = mysql.connection.cursor()
+        print("CALL Cita('{}', '{}', '{}', ""\"{}\""", '{}', '{}')".format(a[2], a[0], a[1], a[3], a[4], a[5]))
+        if cursor.execute("CALL Cita('{}', '{}', '{}', ""\"{}\""", '{}', '{}')".format(a[2], a[0], a[1], a[3], a[4], a[5])) > 0:
+            b = cursor.fetchone()
+            if b[0] is not 0:
+                mysql.connection.commit()
+                flash("cita registrada")
+                return redirect(url_for('citas'))
+            else:
+                flash("Ya existe una cita en esa fecha y hora")
+                return redirect(url_for('reg_cita'))
+        else:
+            flash("Ya existe una cita en esa fecha y hora")
+            return redirect(url_for('reg_cita'))
+    
 
 
 ###REPARACIONES
 @app.route('/reparaciones', methods=['GET'])
 def reparaciones():
-    return render_template('/Reparacion/mostrarReparaciones.html')
+    cursor = mysql.connection.cursor()
+    mysql.connection.cursor()
+    print("CALL getReparaciones")
+    mysql.connection.commit()
+    if cursor.execute("CALL getReparaciones") > 0:
+        a = cursor.fetchall()
+    return render_template('/Reparacion/mostrarReparaciones.html', data=a)
 
 @app.route('/mod_reparacion', methods=['GET'])
 def mod_reparacion():
@@ -245,17 +291,59 @@ def reg_reparacion():
 
 
 ###CLIENTES
-@app.route('/clientes', methods=['GET'])
+@app.route('/clientes')
 def clientes():
-    return render_template('/Clientes/mostrarClientes.html')
+    cursor = mysql.connection.cursor()
+    mysql.connection.cursor()
+    print("CALL getClientes")
+    mysql.connection.commit()
+    if cursor.execute("CALL getClientes") > 0:
+        a = cursor.fetchall()
+    return render_template('/Clientes/mostrarClientes.html', data=a)
 
-@app.route('/mod_cliente', methods=['GET'])
-def mod_cliente():
-    return render_template('/Clientes/modificarCliente.html')
+@app.route('/mod_cliente/<string:id>')
+def mod_cliente(id):
+    if id:
+        cursor = mysql.connection.cursor()
+        mysql.connection.cursor()
+        print("CALL infoCliente ('{}')".format(id))
+        mysql.connection.commit()
+        if cursor.execute("CALL infoCliente ('{}')".format(id)) > 0:
+            a = cursor.fetchone()
+    return render_template('/Clientes/modificarCliente.html', data=a)
 
-@app.route('/reg_cliente', methods=['GET'])
+@app.route('/eli_cliente/<string:id>')
+def eli_cliente(id):
+    if id:
+        print(id)
+        cursor = mysql.connection.cursor()
+        print("CALL deleteCliente ('{}')".format(id))
+        if cursor.execute("CALL deleteCliente ('{}')".format(id)) > 0:
+            flash('eliminado')
+            mysql.connection.commit()
+            return redirect(url_for('clientes'))
+
+@app.route('/reg_cliente')
 def reg_cliente():
     return render_template('/Clientes/registrarCliente.html')
+
+
+@app.route("/ins_cliente", methods=['POST'])
+def ins_cliente():
+    if request.method:
+        a = []
+        a.append(request.form['name'])
+        a.append(request.form['ape'])
+        a.append(request.form['dir'])
+        a.append(request.form['tel'])
+        cursor = mysql.connection.cursor()
+        mysql.connection.cursor()
+        print("CALL insertCliente ('{}', '{}', '{}', '{}')".format(a[3], a[0], a[1], a[2]))
+        if cursor.execute("CALL insertCliente ('{}', '{}', '{}', '{}')".format(a[3], a[0], a[1], a[2])) > 0:
+            mysql.connection.commit()
+            flash("Cliente registrado")
+        return redirect(url_for('clientes'))
+
 
 
 ###PROVEEDORES
