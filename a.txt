@@ -1,0 +1,158 @@
+
+function buscarFiltro($id){
+    $arreglo = array();
+    $serverName = "DESKTOP-HQD53EL";
+    $connectionInfo = array("Database"=>"CAPADOC");
+    $conn = sqlsrv_connect( $serverName, $connectionInfo);
+    $paramIn="Packlist";
+    $paramOut="";
+    //AQUI PODRIAN CREAR UN SP PARA SUSTITUIR ESTO
+    //SE SELECCIONA TODO DEL TIPO DE USUARIO DONDE EL "NOMBRE, TELEFONO, ETC" SEA IGUAL A LA VARIABLE.
+    $procedure_params = array('1',
+        array($paramIn, SQLSRV_PARAM_IN),  
+        array(&$paramOut, SQLSRV_PARAM_OUT)  
+       );
+    $sql = "EXEC dbo.datosMultiples @idCurso = ?";
+    $stmt = sqlsrv_prepare($conn, $sql, $procedure_params);
+    if( sqlsrv_execute( $stmt ) === false ) {
+        die( print_r( sqlsrv_errors(), true));
+    }else{
+      //SE AGREGA A UN ARREGLO DEPENDIENDO EL TIPO DE USUARIO Y SE RETORNA
+      do {
+        while ($row = sqlsrv_fetch_array($stmt)) {
+            $result[] = $row;
+        }
+     } while (sqlsrv_next_result($stmt));
+      array_push($arreglo, $result);
+    }
+    return $arreglo;
+  }
+
+
+
+
+///////////////
+<?php
+    require('PDF/fpdf.php');
+
+    class PDF extends FPDF
+    {
+        // Cabecera de página
+        function Header()
+        {
+            global $title;
+            // Logo
+            // Arial bold 15
+            $this->SetFont('Arial', 'B', 14);
+
+            // Movernos a la derecha
+            $this->Cell(20);
+            // Título
+            $this->Cell(45, 20, $this->Image('../htdocs/Vistas/Admin/ASSETS/logo_itesca-login.png', $this->GetX() + 2, $this->GetY() + 3, 40), 1);
+            //$this->Cell($w,20, utf8_decode($title),1,1,'C',true);
+            $this->MultiCell(190, 10, utf8_decode($title), 1, 'C');
+
+            // Salto de línea
+            $this->Ln(10);
+
+            $this->SetFont('Arial', '', 12);
+            $this->Cell(10);
+            $this->SetFillColor(220, 220, 220);
+            $this->Cell(40, 7, 'Nombre del evento', 1, 0, 'C', true);
+            $this->Cell(220, 7, 'aki va el nombre del curso', 1, 0, 'L');
+
+            $this->Ln();
+            $this->Cell(10);
+            $this->Cell(40, 7, 'Horas presenciales', 1, 0, 'C', true);
+            $this->Cell(20, 7, 'aki van las oras', 1, 0, 'L');
+
+            $this->Cell(30, 7, 'Lugar', 1, 0, 'C', true);
+            $this->Cell(20, 7, 'aki van las oras', 1, 0, 'L');
+
+            $this->Cell(40, 7, 'Facilitaor(a)', 1, 0, 'C', true);
+            $this->Cell(110, 7, 'aki van las oras', 1, 0, 'L');
+
+            $this->Ln();
+            $this->Cell(10);
+            $this->Cell(40, 10, 'Horas virtuales', 1, 0, 'C', true);
+            $this->Cell(20, 10, 'aki van las oras', 1, 0, 'L');
+
+            $this->Cell(30, 10, 'Horario', 1, 0, 'C', true);
+            $this->Cell(20, 10, 'aki van las oras', 1, 0, 'L');
+
+            $this->Cell(60, 10, 'Asistencia (A), Falta (F)', 1, 0, 'C', true);
+            $this->Cell(50, 10, 'Acreditado/No Acreditado', 1, 0, 'C', true);
+            $this->Cell(10, 10, 'Hoja', 1, 0, 'C', true);
+            $this->Cell(10, 10, $this->PageNo(), 1, 0, 'C');
+            $this->Cell(10, 10, 'de', 1, 0, 'C', true);
+            $this->Cell(10, 10, '{nb}', 1, 0, 'C');
+
+
+            $this->Ln();
+            $this->Cell(10);
+            $this->Cell(60, 30, 'Nombre completo', 1, 0, 'C', true);
+            $this->Cell(50, 30, 'Correo Electronico', 1, 0, 'C', true);
+            $this->Cell(5, 30, 'a', 1, 0, 'L');
+            $this->Cell(5, 30, 'a', 1, 0, 'L');
+            $this->Cell(5, 30, 'a', 1, 0, 'L');
+            $this->Cell(5, 30, 'a', 1, 0, 'L');
+            $this->Cell(5, 30, 'a', 1, 0, 'L');
+            $this->Cell(5, 30, 'a', 1, 0, 'L');
+            $this->Cell(5, 30, 'a', 1, 0, 'L');
+            $this->Cell(5, 30, 'a', 1, 0, 'L');
+            $this->Cell(5, 30, 'a', 1, 0, 'L');
+            $this->Cell(5, 30, 'a', 1, 0, 'L');
+            $this->Cell(5, 30, 'a', 1, 0, 'L');
+            $this->Cell(5, 30, 'a', 1, 0, 'L');
+
+            $this->Cell(50, 30, 'Considerar el 80% de asistencia más la evaluación', 1, 0, 'L');
+            $this->Cell(40, 30, 'Firma', 1, 1, 'C', true);
+        }
+
+        // Pie de página
+        function Footer()
+        {
+            // Posición: a 1,5 cm del final
+            $this->SetY(-15);
+            // Arial italic 8
+            $this->SetFont('Arial', 'I', 8);
+            // Número de página
+
+
+            $this->Cell(10);
+            $this->Cell(130, 10, 'Observaciones: ', 1, 0);
+            $this->Cell(130, 10, 'Nombre y Firma del facilitador(a): ', 1, 0, 'L');
+        }
+    }
+
+
+
+    // Creación del objeto de la clase heredada
+    $pdf = new PDF('L');
+    $title = 'LISTA DE PARTICIPANTES Y ASISTENCIA EN EVENTOS DE ACTUALIZACIÓN PROFESIONAL Y CAPACITACIÓN DOCENTE';
+    $pdf->SetTitle('LISTA DE PARTICIPANTES Y ASISTENCIA EN EVENTOS DE ACTUALIZACIÓN PROFESIONAL Y CAPACITACIÓN DOCENTE F03PSA19.01
+    ');
+    $pdf->AliasNbPages();
+    $pdf->AddPage();
+    for ($i = 0; $i < 20; $i++) {
+        $pdf->Cell(10);
+        $pdf->Cell(60, 10, 'Nombre completo' . $i, 1, 0, 'C');
+        $pdf->Cell(50, 10, 'Correo Electronico', 1, 0, 'C');
+        $pdf->Cell(5, 10, 'a', 1, 0, 'L');
+        $pdf->Cell(5, 10, 'a', 1, 0, 'L');
+        $pdf->Cell(5, 10, 'a', 1, 0, 'L');
+        $pdf->Cell(5, 10, 'a', 1, 0, 'L');
+        $pdf->Cell(5, 10, 'a', 1, 0, 'L');
+        $pdf->Cell(5, 10, 'a', 1, 0, 'L');
+        $pdf->Cell(5, 10, 'a', 1, 0, 'L');
+        $pdf->Cell(5, 10, 'a', 1, 0, 'L');
+        $pdf->Cell(5, 10, 'a', 1, 0, 'L');
+        $pdf->Cell(5, 10, 'a', 1, 0, 'L');
+        $pdf->Cell(5, 10, 'a', 1, 0, 'L');
+        $pdf->Cell(5, 10, 'a', 1, 0, 'L');
+
+        $pdf->Cell(50, 10, 'Considerar el 80% de asistencia más la evaluación', 1, 0, 'L');
+        $pdf->Cell(40, 10, 'Firma', 1, 1, 'C');
+    }
+    $pdf->Output();
+?>

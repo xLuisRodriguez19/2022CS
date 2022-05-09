@@ -36,7 +36,7 @@
                                                  <div class="col-lg-8 col-md-6 col-sm-12 p-0">
                                                      <select class="form-control" id="inputGroupSelect04" aria-label="Example select with button addon">
                                                         <option selected>Estado...</option>
-                                                        <option value="1">Pendiente</option>
+                                                        <option value="1">En espera</option>
                                                         <option value="2">En Taller</option>
                                                         <option value="3">Reparado</option>
                                                         <option value="4">Terminado</option>
@@ -75,20 +75,21 @@
                                              </tr>
                                          </thead>
                                          <tbody>
+                                            {% for u in data%}
                                              <tr>
                                                  <td class="text-center">
-                                                     <span class="label label-default"> </span>
+                                                     <span class="label label-default">{{u.0}}</span>
                                                  </td>
      
                                                  <td class="text-center">
-                                                     <span class="label label-default"> </span>
+                                                     <span class="label label-default">{{u.8}}</span>
                                                  </td>
                                                  <td class="text-center">
-                                                     <span class="label label-default"> </span>
+                                                     <span class="label label-default">{{u.4}}</span>
                                                  </td>
                                                  <td>
                                                      <!--<a href="#"> ROHL00000A1 </a>-->
-                                                     <span class="label label-default"> </span>
+                                                     <span class="label label-default">{{u.7}}</span>
                                                  </td>
                                                  <td style="width: 20%;">
                                                      <span><a class="btn btn-success btn-sm" href="{{ url_for('mod_reparacion') }}">Ver</a></span>
@@ -115,6 +116,7 @@
                                                  </div>
                                              </div>
                                              </div>
+                                             {% endfor %}
                                          </tbody>
                                      </table>
                                  </div>

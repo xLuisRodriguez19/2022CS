@@ -60,8 +60,14 @@
                                                                 <div class="form-group">
                                                                     <label>Cliente</label>
                                                                     <input class="form-control" type="text"
-                                                                        placeholder="" name="cliente">
+                                                                        placeholder="" name="cliente" list="clientes" autocomplete="off">
+                                                                    
                                                                 </div>
+                                                                <datalist id="clientes">
+                                                                    {% for u in data2%}
+                                                                        <option value="{{u.0}}"></option>
+                                                                    {% endfor %}
+                                                                </datalist>
                                                             </div>
                                                         </div>
                                                         <div class="row">

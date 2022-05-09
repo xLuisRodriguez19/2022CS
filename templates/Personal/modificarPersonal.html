@@ -34,7 +34,7 @@
                 </div>
                 <div class="tab-content pt-3">
                   <div class="tab-pane active">
-                    <form class="form" novalidate="" action="" method="POST">
+                    <form class="form" novalidate="" action="/upd_personal" method="POST">
                       <div class="row">
                         <div class="col">
                           <div class="row">
@@ -49,7 +49,7 @@
                             <div class="col">
                               <div class="form-group">
                                 <label>Apellido(s)</label>
-                                <input class="form-control" type="text" placeholder=" " name="apellido" value={{info.1}}>
+                                <input class="form-control" type="text" placeholder=" " name="ape" value={{info.1}}>
                               </div>
                             </div>
                           </div>
@@ -84,7 +84,7 @@
                         <div class="col">
                           <div class="form-group">
                             <label>Agregar Contraseña</label>
-                            <input class="form-control" type="password" placeholder="••••••" name="password">
+                            <input class="form-control" type="password" placeholder="••••••" name="password" value="{{info.5}}">
                           </div>
                         </div>
                       </div>
@@ -92,7 +92,7 @@
                         <div class="col">
                           <div class="form-group">
                             <label>Verificar Contraseña</label>
-                            <input class="form-control" type="password" placeholder="••••••">
+                            <input class="form-control" type="password" placeholder="••••••" value="{{info.5}}">
                           </div>
                         </div>
                       </div>
@@ -102,7 +102,7 @@
                           <div class="form-group">
                             <div class="form-group">
                               <label for="exampleFormControlSelect1">Tipo de usuario</label>
-                              <select class="form-control" id="exampleFormControlSelect1">
+                              <select class="form-control" id="exampleFormControlSelect1" name="tipo">
                                 <option>Tipo de usuario</option>
                                 {% if info.6 == 1%}
                                 

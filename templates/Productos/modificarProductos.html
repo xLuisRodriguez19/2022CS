@@ -38,14 +38,14 @@
                           </div>
                           <div class="tab-content pt-3">
                             <div class="tab-pane active">
-                              <form class="form" novalidate="" action="" method="POST">
+                              <form class="form" novalidate="" action="/upd_prod" method="POST" enctype="multipart/form-data">
                                 <div class="row">
                                   <div class="col">
                                     <div class="row">
                                       <div class="col">
                                         <div class="form-group">
                                           <label>Código del Producto</label>
-                                          <input class="form-control" type="text" name="name" placeholder=" " value=" ">
+                                          <input class="form-control" type="text" name="cod" placeholder=" " value="{{info.0}}">
                                         </div>
                                       </div>
                                     </div>
@@ -53,13 +53,14 @@
                                         <div class="col-6">
                                           <div class="form-group">
                                             <label>Imagen</label>
-                                            <input class="form-control" type="file" placeholder=" " name="username">
+                                            <input class="form-control" type="file" placeholder=" " name="archivo">
                                           </div>
                                         </div>
                                         <div class="col-6">
                                             <div class="form-group">
                                               <label>Imagen</label>
-                                              <input class="form-control" type="image" placeholder="aa" name="imagen">
+                                              <img  class="form-control" src="../{{info.5}}" alt="adsasdas" width="30%">
+                                              <input type="text" hidden value="{{info.5}}" name="path">
                                             </div>
                                           </div>
                                       </div>
@@ -67,7 +68,7 @@
                                         <div class="col">
                                           <div class="form-group">
                                             <label>Nombre</label>
-                                            <input class="form-control" type="text" placeholder=" " name="username">
+                                            <input class="form-control" type="text" placeholder=" " name="name" value="{{info.1}}">
                                           </div>
                                         </div>
                                       </div>
@@ -75,7 +76,7 @@
                                       <div class="col">
                                         <div class="form-group">
                                           <label>Existencia</label>
-                                          <input class="form-control" type="text" placeholder=" " name="username">
+                                          <input class="form-control" type="text" placeholder=" " name="cant" value="{{info.2}}">
                                         </div>
                                       </div>
                                     </div>
@@ -83,7 +84,7 @@
                                       <div class="col">
                                         <div class="form-group">
                                           <label>Costo</label>
-                                          <input class="form-control" type="text" placeholder=" " name="email">
+                                          <input class="form-control" type="text" placeholder=" " name="costo" value="{{info.3}}">
                                         </div>
                                       </div>
                                     </div>
@@ -92,11 +93,11 @@
                                             <div class="form-group">
                                                 <div class="form-group">
                                                     <label for="exampleFormControlSelect1">Proveedor</label>
-                                                        <select class="form-control" id="exampleFormControlSelect1">
-                                                        <option></option>
-                                                        <option>Administrador</option>
-                                                        <option>Técnico</option>
-                                                        <option>Personal</option>
+                                                        <select class="form-control" id="exampleFormControlSelect1" name="codP">
+                                                          {% for u in data%}
+                                                          <option value="{{u.0}}">{{u.1}}</option>
+                                                          {% endfor %}
+                                                          </select>
                                                         </select>
                                                     </div>
                                             </div>
@@ -139,27 +140,7 @@
                       </div>
                     </div>
                   </div>
-                  <span><a><button type="button" class="btn btn-light btn-info" data-toggle="modal" data-target="#exampleModal"><img src="{{url_for('static', filename='img/boton-de-informacion.png')}}" width="30" height="30" alt=""></button></a></span>
-                    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                        <div class="modal-dialog">
-                            <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="exampleModalLabel">Eliminar administrador</h5>
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                                </button>
-                            </div>
-                            <div class="modal-body">
-                                ¿Desea eliminar al administrador:<br>
-                            </div>
-                            </div>
-                        </div>
-                        </div>
-                  </span>
-                  
-                  
         </div>
-    
 </body>
 
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"

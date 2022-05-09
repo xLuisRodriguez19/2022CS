@@ -5,6 +5,7 @@ from flask import session
 import os
 from werkzeug.utils import secure_filename
 import time
+import datetime
 #from ConectDB  import conectar
 app = Flask(__name__)
 app.secret_key = b'_5#y2L"F4Q8z\n\xec]/'
@@ -86,6 +87,33 @@ def mod_personal(id):
             print(a)
             return render_template('/Personal/modificarPersonal.html', info = a[0])
 
+@app.route('/upd_personal', methods=['POST'])
+def upd_personal():
+    if request.method:
+        a = []
+        a.append(request.form['name'])
+        a.append(request.form['ape'])
+        a.append(request.form['rfc'])
+        a.append(request.form['tel'])
+        a.append(request.form['username'])
+        a.append(request.form['password'])
+        if request.form['tipo'] == "Técnico":
+            t = 1
+        elif request.form['tipo'] == "Personal":
+            t = 2
+        else:
+            t = 3
+        a.append(t)
+        print(a)
+        cursor = mysql.connection.cursor()
+        mysql.connection.cursor()
+        print("CALL updatePersonal('{}','{}','{}','{}','{}','{}',{})".format(a[0], a[1], a[2], a[3], a[4], a[5], a[6]))
+        if cursor.execute("CALL updatePersonal('{}','{}','{}','{}','{}','{}',{})".format(a[0], a[1], a[2], a[3], a[4], a[5], a[6])) > 0:
+            mysql.connection.commit()
+            flash('REGISTRADO')
+            a.pop()
+            return redirect(url_for('personal'))
+
 @app.route('/reg_personal')
 def reg_personal():
     return render_template('/Personal/registrarPersonal.html')
@@ -142,9 +170,53 @@ def productos():
             print(ae)
     return render_template('/Productos/mostrarProductos.html', data=a)
 
-@app.route('/mod_productos', methods=['GET'])
-def mod_productos():
-    return render_template('/Productos/modificarProductos.html')
+@app.route('/mod_productos/<string:id>')
+def mod_productos(id):
+    print(id)
+    cursor = mysql.connection.cursor()
+    print("CALL infoProducto ('{}')".format(id))
+    mysql.connection.commit()
+    if cursor.execute("CALL infoProducto ('{}')".format(id)) > 0:
+        a = cursor.fetchall()
+        print(a)
+    if cursor.execute("CALL getProveedores") > 0:
+        b = cursor.fetchall()
+    return render_template('/Productos/modificarProductos.html', info = a[0],data = b)
+    #return render_template('/Productos/modificarProductos.html')
+
+@app.route('/upd_prod', methods=['POST'])
+def upd_prod():
+    if request.method:
+        a = []
+        a.append(request.form['cod'])
+        if request.files['archivo']:
+            fi = request.files['archivo']
+            filename = secure_filename(fi.filename)
+            if allowed_file(filename):
+                path = os.path.join(app.config['UPLOAD_FOLDER'])
+                print(fi.save(os.path.join(app.config['UPLOAD_FOLDER'], filename)))
+                path += "/"+filename
+                a.append(path)
+            else:
+                flash("Archivo no permitido")
+                return redirect(url_for('reg_productos'))
+        else:
+            a.append(request.form['path'])
+        a.append(request.form['name'])
+        a.append(request.form['cant'])
+        a.append(request.form['costo'])
+        a.append(request.form['codP'])
+        cursor = mysql.connection.cursor()
+        mysql.connection.cursor()
+        print("CALL updateProd ('{}' ,'{}', '{}', '{}', '{}', '{}')".format(a[0], a[2], a[3], a[4], a[5], a[1]))
+        #total =(int(a[4])*.16)+int(a[4])
+        #print(time.strftime("%H:%M:%S"))
+        #print(time.strftime("%Y-%m-%d"))
+        mysql.connection.commit()
+        if cursor.execute("CALL updateProd ('{}' ,'{}', '{}', '{}', '{}', '{}')".format(a[0], a[2], a[3], a[4], a[5], a[1]))  > 0:
+            mysql.connection.commit()
+            return redirect(url_for('productos'))
+    return redirect(url_for('productos'))
 
 @app.route('/reg_productos')
 def reg_productos():
@@ -225,8 +297,12 @@ def citas():
     mysql.connection.commit()
     if cursor.execute("CALL getCitas") > 0:
         a = cursor.fetchall()
-        print("a",a)
-        return render_template('/Citas/mostrarCitas.html', data=a)
+        h = a[0][5].seconds//3600
+        minutes = (a[0][5].seconds//60)%60
+        for u in a:
+            b = [(u[0], u[1],u[2], u[3], u[4].strftime("%d-%m-%Y"), "{}:{}".format(h, minutes))]
+            print(b)
+        return render_template('/Citas/mostrarCitas.html', data=b)
     else:
         return render_template('/Citas/mostrarCitas.html')
 
@@ -241,7 +317,10 @@ def reg_cita():
     mysql.connection.commit()
     if cursor.execute("CALL getNumCita()") > 0:
         a = cursor.fetchone()
-    return render_template('/Citas/registrarCita.html', data=a[0])
+    if cursor.execute("CALL NumClientes()") > 0:
+        b = cursor.fetchall()
+        print(b)
+    return render_template('/Citas/registrarCita.html', data=a[0], data2=b)
 
 @app.route('/ins_cita', methods=['POST'])
 def ins_cita():
@@ -279,7 +358,9 @@ def reparaciones():
     mysql.connection.commit()
     if cursor.execute("CALL getReparaciones") > 0:
         a = cursor.fetchall()
-    return render_template('/Reparacion/mostrarReparaciones.html', data=a)
+        return render_template('/Reparacion/mostrarReparaciones.html', data=a)
+    else:
+        return render_template('/Reparacion/mostrarReparaciones.html')
 
 @app.route('/mod_reparacion', methods=['GET'])
 def mod_reparacion():
@@ -287,8 +368,34 @@ def mod_reparacion():
 
 @app.route('/reg_reparacion', methods=['GET'])
 def reg_reparacion():
-    return render_template('/Reparacion/registrarReparacion.html')
+    cursor = mysql.connection.cursor()
+    print("CALL getNumRepa(")
+    mysql.connection.commit()
+    if cursor.execute("CALL getNumRepa()") > 0:
+        a = cursor.fetchone()
+        print(a)
+    if cursor.execute("CALL NumClientes()") > 0:
+        b = cursor.fetchall()
+        print(b)
+    return render_template('/Reparacion/registrarReparacion.html', data=a[0], data2=b)
 
+@app.route('/ins_rep', methods=['POST'])
+def ins_rep():
+    if request.method:
+        a = []
+        a.append(request.form['cliente'])
+        a.append(request.form['tel'])
+        a.append(request.form['fecha1'])
+        a.append(request.form['fecha2'])
+        a.append(request.form['desc'])
+        a.append(request.form['sub'])
+        a.append(request.form['neto'])
+        print(a)
+        cursor = mysql.connection.cursor()
+        print("CALL insertReparacion('{}', '{}',  ""\"{}\""", ""\"{}\""", '{}', '{}', '{}')".format(a[0], a[1], a[2], a[3], a[4], a[5], a[6]))
+        if cursor.execute("CALL insertReparacion('{}', '{}',  ""\"{}\""", {}, '{}', '{}', '{}')".format(a[0], a[1], a[2], "null", a[4], a[5], a[6])) > 0:
+            mysql.connection.commit()
+            return redirect(url_for('reparaciones'))
 
 ###CLIENTES
 @app.route('/clientes')
