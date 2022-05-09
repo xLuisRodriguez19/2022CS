@@ -34,14 +34,14 @@
                 </div>
                 <div class="tab-content pt-3">
                   <div class="tab-pane active">
-                    <form class="form" novalidate="" action="" method="POST">
+                    <form class="form" novalidate="" action="/upd_prov" method="POST">
                         <div class="row">
                             <div class="col">
                               <div class="row">
                                 <div class="col">
                                   <div class="form-group">
                                     <label>Código de Proveedor</label>
-                                    <input class="form-control" type="text" name="name" placeholder=" " value="{{datos.0}}">
+                                    <input class="form-control" type="text" name="codi" placeholder=" " value="{{datos.0}}" readonly>
                                   </div>
                                 </div>
                               </div>
@@ -49,7 +49,7 @@
                                   <div class="col">
                                     <div class="form-group">
                                       <label>Nombre</label>
-                                      <input class="form-control" type="text" placeholder=" " name="username" value="{{datos.1}}">
+                                      <input class="form-control" type="text" placeholder=" " name="name" value="{{datos.1}}">
                                     </div>
                                   </div>
                                 </div>
@@ -57,7 +57,7 @@
                                 <div class="col">
                                   <div class="form-group">
                                     <label>Dirección</label>
-                                    <input class="form-control" type="text" placeholder=" " name="username" value="{{datos.2}}">
+                                    <input class="form-control" type="text" placeholder=" " name="dir" value="{{datos.2}}">
                                   </div>
                                 </div>
                               </div>
@@ -65,7 +65,7 @@
                                 <div class="col">
                                   <div class="form-group">
                                     <label>Teléfono</label>
-                                    <input class="form-control" type="text" placeholder=" " name="email" value="{{datos.3}}">
+                                    <input class="form-control" type="text" placeholder=" " name="tel" value="{{datos.3}}">
                                   </div>
                                 </div>
                               </div>
@@ -73,7 +73,7 @@
                                   <div class="col">
                                     <div class="form-group">
                                       <label>RFC</label>
-                                      <input class="form-control" type="text" placeholder=" " name="username" value="{{datos.4}}">
+                                      <input class="form-control" type="text" placeholder=" " name="rfc" value="{{datos.4}}">
                                     </div>
                                   </div>
                                 </div>
@@ -83,7 +83,7 @@
                                 <div class="col">
                                   <div class="form-group">
                                     <label>Correo</label>
-                                    <input class="form-control" type="text" placeholder="" name="password" value="{{datos.5}}">
+                                    <input class="form-control" type="text" placeholder="" name="email" value="{{datos.5}}">
                                   </div>
                                 </div>
                               </div>
@@ -93,7 +93,7 @@
                                       <div class="form-group">
                                           <div class="form-group">
                                               <label>Código Postal</label>
-                                              <input class="form-control" type="text" placeholder="" name="password" value="{{datos.6}}">
+                                              <input class="form-control" type="text" placeholder="" name="cp" value="{{datos.6}}">
                                               </div>
                                       </div>
                                   </div>

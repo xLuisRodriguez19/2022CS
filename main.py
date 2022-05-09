@@ -306,9 +306,50 @@ def citas():
     else:
         return render_template('/Citas/mostrarCitas.html')
 
-@app.route('/mod_cita')
-def mod_cita():
-    return render_template('/Citas/modificarCita.html')
+@app.route('/mod_cita/<string:id>')
+def mod_cita(id):
+    if id:
+        cursor = mysql.connection.cursor()
+        print("CALL infoCita ('{}')".format(id))
+        mysql.connection.commit()
+        if cursor.execute("CALL infoCita ('{}')".format(id)) > 0:
+            a = cursor.fetchall()
+            print(a)
+            h = a[0][5].seconds//3600
+            minutes = (a[0][5].seconds//60)%60
+            if minutes == 0:
+                minutes="{}".format("00")
+            for u in a:
+                b = (u[0], u[1],u[2], u[3], u[4].strftime("%Y-%m-%d"), "{}:{}".format(h, minutes), u[6])
+                print(b)
+    #return render_template('/Citas/registrarCita.html', data=a[0])
+    return render_template('/Citas/modificarCita.html', data=b)
+
+@app.route('/upd_cita', methods=['POST'])
+def upd_cita():
+    if request.method:
+        a = []
+        a.append(request.form['cod'])
+        a.append(request.form['cliente'])
+        a.append(request.form['dir'])
+        a.append(request.form['tel'])
+        a.append(request.form['f'])
+        a.append(request.form['h'])
+        a.append(request.form['des'])
+        print(a)
+        cursor = mysql.connection.cursor()
+        print("CALL updateCita('{}', '{}', '{}', '{}', '{}', '{}', '{}')".format(a[0], a[1], a[2], a[3], a[4], a[5], a[6]))
+        mysql.connection.commit()
+        if cursor.execute("CALL updateCita('{}', '{}', '{}', '{}', '{}', '{}', '{}')".format(a[0], a[1], a[2], a[3], a[4], a[5], a[6])) > 0:
+            a = cursor.fetchone()
+        if a != 0:
+            mysql.connection.commit()
+            #a.pop()
+            return redirect(url_for('citas'))
+        else:
+            flash("Ya existe una cita en esa fecha y hora")
+            return redirect(url_for('reg_cita'))
+            
 
 @app.route('/reg_cita')
 def reg_cita():
@@ -362,9 +403,49 @@ def reparaciones():
     else:
         return render_template('/Reparacion/mostrarReparaciones.html')
 
-@app.route('/mod_reparacion', methods=['GET'])
-def mod_reparacion():
-    return render_template('/Reparacion/modificarReparacion.html')
+@app.route('/mod_reparacion/<string:id>')
+def mod_reparacion(id):
+    if id:
+        cursor = mysql.connection.cursor()
+        print("CALL infoRep ('{}')".format(id))
+        mysql.connection.commit()
+        if cursor.execute("CALL infoRep ('{}')".format(id)) > 0:
+            a = cursor.fetchall()
+            print(a)
+            for u in a:
+                if u[3]:
+                    b = (u[0], u[1], u[2].strftime("%Y-%m-%d"), u[3].strftime("%Y-%m-%d"), u[4], u[5], u[6], u[7], u[8])
+                else:
+                    b = (u[0], u[1], u[2].strftime("%Y-%m-%d"), "", u[4], u[5], u[6], u[7], u[8])
+                print(b)
+    #return render_template('/Citas/registrarCita.html', data=a[0])
+    #return render_template('/Citas/modificarCita.html', data=b)
+    return render_template('/Reparacion/modificarReparacion.html', data=b)
+
+@app.route('/upd_rep', methods=['POST'])
+def upd_rep():
+    if request.method:
+        a = []
+        a.append(request.form['cod'])#0
+        a.append(request.form['cliente'])#1
+        a.append(request.form['tel'])#2
+        a.append(request.form['f'])#3
+        a.append(request.form['f1'])#4
+        a.append(request.form['sub'])#5
+        a.append(request.form['neto'])#6
+        a.append(request.form['status'])#7
+        a.append(request.form['des'])#8
+        print(a)
+        cursor = mysql.connection.cursor()
+        print("CALL updateRep('{}', '{}', '{}', '{}', '{}', '{}', '{}', '{}', '{}')".format(a[0], a[1], a[3], a[4], a[8], a[5], a[6], a[7], a[2]))
+        mysql.connection.commit()
+        if cursor.execute("CALL updateRep('{}', '{}', '{}', '{}', '{}', '{}', '{}', '{}', '{}')".format(a[0], a[1], a[3], a[4], a[8], a[5], a[6], a[7], a[2])) > 0:
+            mysql.connection.commit()
+        #    #a.pop()
+        return redirect(url_for('reparaciones'))
+        #else:
+        #    flash("Ya existe una cita en esa fecha y hora")
+            #return redirect(url_for('reg_cita'))
 
 @app.route('/reg_reparacion', methods=['GET'])
 def reg_reparacion():
@@ -419,6 +500,27 @@ def mod_cliente(id):
             a = cursor.fetchone()
     return render_template('/Clientes/modificarCliente.html', data=a)
 
+@app.route('/upd_cliente',  methods=["POST"])
+def upd_cliente():
+    if request.method:
+        a = []
+        a.append(request.form['tel'])
+        a.append(request.form['name'])
+        a.append(request.form['ape'])
+        a.append(request.form['dir'])
+        
+        cursor = mysql.connection.cursor()
+        mysql.connection.cursor()
+        print("CALL updateCli ('{}', '{}', '{}', '{}')".format(a[0], a[1], a[2], a[3]))
+        mysql.connection.commit()
+        if cursor.execute("CALL updateCli ('{}', '{}', '{}', '{}')".format(a[0], a[1], a[2], a[3])) > 0:
+            mysql.connection.commit()
+            #flash("Cliente registrado")
+        return redirect(url_for('clientes'))
+
+
+
+
 @app.route('/eli_cliente/<string:id>')
 def eli_cliente(id):
     if id:
@@ -468,9 +570,30 @@ def mod_proveedor(id):
         print(id)
         cursor = mysql.connection.cursor()
         mysql.connection.commit()
-        if(cursor.execute("CALL infoProveedor ('{}')".format(id)) > 0):
+        if(cursor.execute("CALL infoProv ('{}')".format(id)) > 0):
             a = cursor.fetchall()
             return render_template('/Proveedores/modificarProveedor.html', datos=a[0])
+
+@app.route('/upd_prov', methods=['POST'])
+def upd_prov():
+    if request.method:
+        a = []
+        a.append(request.form['codi'])
+        a.append(request.form['name'])
+        a.append(request.form['dir'])
+        a.append(request.form['tel'])
+        a.append(request.form['rfc'])
+        a.append(request.form['email'])
+        a.append(request.form['cp'])
+        print(a)
+        cursor = mysql.connection.cursor()
+        mysql.connection.cursor()
+        mysql.connection.commit()
+        print("CALL updateProv('{}','{}','{}','{}','{}','{}',{})".format(a[0], a[1], a[2], a[3], a[4], a[5], a[6]))
+        if cursor.execute("CALL updateProv('{}','{}','{}','{}','{}','{}',{})".format(a[0], a[1], a[2], a[3], a[4], a[5], a[6])) > 0:
+            mysql.connection.commit()
+            return redirect(url_for('proveedores'))
+    
 
 @app.route('/reg_proveedor')
 def reg_proveedor():

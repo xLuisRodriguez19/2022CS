@@ -34,15 +34,15 @@
                                     </div>
                                     <div class="tab-content pt-3">
                                         <div class="tab-pane active">
-                                            <form class="form" novalidate="" action="" method="POST">
+                                            <form class="form" novalidate="" action="/upd_rep" method="POST">
                                                 <div class="row">
                                                     <div class="col">
                                                         <div class="row">
                                                             <div class="col">
                                                                 <div class="form-group">
                                                                     <label>No. de Reparación</label>
-                                                                    <input class="form-control" type="text" name="name"
-                                                                        placeholder=" " value=" ">
+                                                                    <input class="form-control" type="text" name="cod"
+                                                                        placeholder=" " value="{{data.0}}" readonly>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -51,7 +51,8 @@
                                                                 <div class="form-group">
                                                                     <label>Cliente</label>
                                                                     <input class="form-control" type="text"
-                                                                        placeholder=" " name="username">
+                                                                        placeholder=" " name="cliente"
+                                                                        value="{{data.1}}">
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -60,7 +61,7 @@
                                                                 <div class="form-group">
                                                                     <label>Teléfono</label>
                                                                     <input class="form-control" type="text"
-                                                                        placeholder=" " name="email">
+                                                                        placeholder=" " name="tel" value="{{data.8}}">
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -69,23 +70,80 @@
                                                                 <div class="form-group">
                                                                     <label>Fecha Entrada</label>
                                                                     <input class="form-control" type="date"
-                                                                        placeholder=" " name="username">
+                                                                        placeholder=" " name="f" value="{{data.2}}">
                                                                 </div>
                                                             </div>
                                                             <div class="col">
                                                                 <div class="form-group">
                                                                     <label>Fecha Salida</label>
                                                                     <input class="form-control" type="date"
-                                                                        placeholder=" " name="username">
+                                                                        placeholder=" " name="f1" value="{{data.3}}">
                                                                 </div>
                                                             </div>
                                                         </div>
+                                                        <div class="row">
+                                                            <div class="col">
+                                                                <div class="form-group">
+                                                                    <label>Subtotal</label>
+                                                                    <input class="form-control" type="number"
+                                                                        placeholder=" " name="sub" value="{{data.5}}">
+                                                                </div>
+                                                            </div>
+                                                            <div class="col">
+                                                                <div class="form-group">
+                                                                    <label>Total neto</label>
+                                                                    <input class="form-control" type="number"
+                                                                        placeholder=" " name="neto" value="{{data.6}}">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="col">
+                                                                <div class="form-group">
+                                                                    <label>Estado</label>
+                                                                    <select class="form-control" name="status"
+                                                                        id="exampleFormControlSelect1">
+                                                                        {% if data.7 == 'En espera'%}
+
+                                                                        <option selected>En Espera</option>
+                                                                        <option>En Taller</option>
+                                                                        <option>Reparado</option>
+                                                                        <option>Terminado</option>
+                                                                        {% endif %}
+
+                                                                        {% if data.7 == 'En Taller'%}
+                                                                        <option>En Espera</option>
+                                                                        <option selected>En Taller</option>
+                                                                        <option>Reparado</option>
+                                                                        <option>Terminado</option>
+                                                                        {% endif %}
+
+                                                                        {% if data.7 == 'Reparado'%}
+                                                                        <option>En Espera</option>
+                                                                        <option>En Taller</option>
+                                                                        <option selected>Reparado</option>
+                                                                        <option>Terminado</option>
+                                                                        {% endif %}
+
+                                                                        {% if data.7 == 'Terminado'%}
+                                                                        <option>En Espera</option>
+                                                                        <option>En Taller</option>
+                                                                        <option>Reparado</option>
+                                                                        <option selected>Terminado</option>
+                                                                        {% endif %}
+                                                                    </select>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        
                                                     </div>
                                                 </div>
                                                 <div class="mb-3">
-                                                    <label for="exampleFormControlTextarea1" class="form-label">Descripción</label>
-                                                    <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
-                                                  </div>
+                                                    <label for="exampleFormControlTextarea1"
+                                                        class="form-label">Descripción</label>
+                                                    <textarea class="form-control" id="exampleFormControlTextarea1"
+                                                        rows="3" name="des">{{data.4}}</textarea>
+                                                </div>
                                                 <div class="row">
                                                     <div class="col d-flex justify-content-end">
                                                         <!--
