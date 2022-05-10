@@ -76,6 +76,7 @@
                                          </thead>
                                          <tbody>
                                             {% for u in data%}
+                                            {% if u.6 == 'Activo'%}
                                              <tr>
                                                 <td style=" width: 25%;">
                                                     <!--<a href="#"> ROHL00000A1 </a>-->
@@ -94,11 +95,11 @@
                                                  
                                                  <td style="width: 20%;">
                                                      <span><a class="btn btn-success btn-sm" href="/mod_productos/{{u.0}}">Ver</a></span>
-                                                     <span><a><button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#exampleModal">Eliminar</button></a></span>
+                                                     <span><a><button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#exampleModal{{u.0}}">Eliminar</button></a></span>
                                                  </td>
                                              </tr>
                                              <!-- Modal -->
-                                             <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                             <div class="modal fade" id="exampleModal{{u.0}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                              <div class="modal-dialog">
                                                  <div class="modal-content">
                                                  <div class="modal-header">
@@ -108,15 +109,60 @@
                                                      </button>
                                                  </div>
                                                  <div class="modal-body">
-                                                     ¿Desea eliminar al administrador:<br>
+                                                     ¿Desea eliminar al producto:{{u.1}}?
                                                  </div>
                                                  <div class="modal-footer">
                                                      <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-                                                     <a href=""><button type="button" class="btn btn-danger">Eliminar</button></a>
+                                                     <a href="/eli_prod/{{u.0}}"><button type="button" class="btn btn-danger">Eliminar</button></a>
                                                  </div>
                                                  </div>
                                              </div>
                                              </div>
+                                             {% endif %}
+
+                                             {% if u.6 != 'Activo'%}
+                                             <tr>
+                                                <td style=" width: 25%;">
+                                                    <!--<a href="#"> ROHL00000A1 </a>-->
+                                                   <img style="height: 25%; width: 25%;" src="../{{u.8}}" alt="">
+                                                </td>
+                                                 <td class="text-center">
+                                                     <span class="label label-default text-danger"> {{u.0}}</span>
+                                                 </td>
+     
+                                                 <td class="text-center">
+                                                     <span class="label label-default text-danger"> {{u.1}}</span>
+                                                 </td>
+                                                 <td class="text-center">
+                                                     <span class="label label-default text-danger"> {{u.3}}</span>
+                                                 </td>
+                                                 
+                                                 <td style="width: 20%;">
+                                                     <span><a class="btn btn-success btn-sm" href="/mod_productos/{{u.0}}">Ver</a></span>
+                                                     <span><a><button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#exampleModal{{u.0}}">Activar</button></a></span>
+                                                 </td>
+                                             </tr>
+                                             <!-- Modal -->
+                                             <div class="modal fade" id="exampleModal{{u.0}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                             <div class="modal-dialog">
+                                                 <div class="modal-content">
+                                                 <div class="modal-header">
+                                                     <h5 class="modal-title" id="exampleModalLabel">Activar Producto</h5>
+                                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                     <span aria-hidden="true">&times;</span>
+                                                     </button>
+                                                 </div>
+                                                 <div class="modal-body">
+                                                     ¿Desea activar al producto:{{u.1}}?
+                                                 </div>
+                                                 <div class="modal-footer">
+                                                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                                                     <a href="/act_prod/{{u.0}}"><button type="button" class="btn btn-success">Activar</button></a>
+                                                 </div>
+                                                 </div>
+                                             </div>
+                                             </div>
+                                             {% endif %}
                                              {% endfor %}
                                          </tbody>
                                      </table>

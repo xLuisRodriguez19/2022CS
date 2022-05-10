@@ -153,7 +153,16 @@ def eli_personal(id):
         cursor = mysql.connection.cursor()
         print("CALL deleteUser ('{}')".format(id))
         if cursor.execute("CALL deleteUser ('{}')".format(id)) > 0:
-            flash('eliminado')
+            mysql.connection.commit()
+            return redirect(url_for('personal'))
+
+@app.route('/act_personal/<string:id>')
+def act_personal(id):
+    if id:
+        print(id)
+        cursor = mysql.connection.cursor()
+        print("CALL actUser ('{}')".format(id))
+        if cursor.execute("CALL actUser ('{}')".format(id)) > 0:
             mysql.connection.commit()
             return redirect(url_for('personal'))
 
@@ -268,6 +277,26 @@ def ins_prod():
                 mysql.connection.commit()
         return redirect(url_for('ventas'))
 
+@app.route('/eli_prod/<string:id>')
+def eli_prod(id):
+    if id:
+        print(id)
+        cursor = mysql.connection.cursor()
+        print("CALL deleteProd ('{}')".format(id))
+        if cursor.execute("CALL deleteProd ('{}')".format(id)) > 0:
+            mysql.connection.commit()
+            return redirect(url_for('productos'))
+
+@app.route('/act_prod/<string:id>')
+def act_prod(id):
+    if id:
+        print(id)
+        cursor = mysql.connection.cursor()
+        print("CALL actProd ('{}')".format(id))
+        if cursor.execute("CALL actProd ('{}')".format(id)) > 0:
+            mysql.connection.commit()
+            return redirect(url_for('productos'))
+
 
 ###VENTAS
 @app.route('/ventas', methods=['GET'])
@@ -300,7 +329,7 @@ def citas():
         h = a[0][5].seconds//3600
         minutes = (a[0][5].seconds//60)%60
         for u in a:
-            b = [(u[0], u[1],u[2], u[3], u[4].strftime("%d-%m-%Y"), "{}:{}".format(h, minutes))]
+            b = [(u[0], u[1],u[2], u[3], u[4].strftime("%d-%m-%Y"), "{}:{}".format(h, minutes), u[6], u[7])]
             print(b)
         return render_template('/Citas/mostrarCitas.html', data=b)
     else:
@@ -387,7 +416,16 @@ def ins_cita():
         else:
             flash("Ya existe una cita en esa fecha y hora")
             return redirect(url_for('reg_cita'))
-    
+
+@app.route('/eli_cita/<string:id>')
+def eli_cita(id):
+    if id:
+        print(id)
+        cursor = mysql.connection.cursor()
+        print("CALL deleteCita ('{}')".format(id))
+        if cursor.execute("CALL deteleCita ('{}')".format(id)) > 0:
+            mysql.connection.commit()
+            return redirect(url_for('citas'))   
 
 
 ###REPARACIONES
@@ -478,6 +516,16 @@ def ins_rep():
             mysql.connection.commit()
             return redirect(url_for('reparaciones'))
 
+@app.route('/eli_rep/<string:id>')
+def eli_rep(id):
+    if id:
+        print(id)
+        cursor = mysql.connection.cursor()
+        print("CALL deleteProd ('{}')".format(id))
+        if cursor.execute("CALL deteleRep ('{}')".format(id)) > 0:
+            mysql.connection.commit()
+            return redirect(url_for('reparaciones'))
+
 ###CLIENTES
 @app.route('/clientes')
 def clientes():
@@ -520,7 +568,6 @@ def upd_cliente():
 
 
 
-
 @app.route('/eli_cliente/<string:id>')
 def eli_cliente(id):
     if id:
@@ -553,7 +600,15 @@ def ins_cliente():
             flash("Cliente registrado")
         return redirect(url_for('clientes'))
 
-
+@app.route('/act_cliente/<string:id>')
+def act_cliente(id):
+    if id:
+        print(id)
+        cursor = mysql.connection.cursor()
+        print("CALL actProd ('{}')".format(id))
+        if cursor.execute("CALL actCliente ('{}')".format(id)) > 0:
+            mysql.connection.commit()
+            return redirect(url_for('clientes'))
 
 ###PROVEEDORES
 @app.route('/proveedores')
@@ -627,8 +682,18 @@ def eli_proveedor(id):
         cursor = mysql.connection.cursor()
         if(cursor.execute("CALL deleteProveedor ('{}')".format(id)) > 0):
             mysql.connection.commit()
-            flash("Eliminado")
             return redirect(url_for('proveedores'))
+
+@app.route('/act_prov/<string:id>')
+def act_prov(id):
+    if id:
+        print(id)
+        cursor = mysql.connection.cursor()
+        print("CALL actProd ('{}')".format(id))
+        if cursor.execute("CALL actProv ('{}')".format(id)) > 0:
+            mysql.connection.commit()
+            return redirect(url_for('proveedores'))
+
 
 
 if __name__ == '__main__':
