@@ -21,61 +21,104 @@
   <div class="col-sm-10">
     <br>
     <h1 style="text-align: center">VENTAS</h1>
-    <form action="">
-    <div class="container">
-      <div class="row">
-        <div class="col"></div>
-        <div class="col-6">
-          <input type="text" placeholder="Buscar..." class="form-control" id="search" name="search">
+    <form action="/buscar_item" method="POST">
+      <div class="container">
+        <div class="row">
+          <div class="col"></div>
+          <div class="col-6">
+            <input type="text" placeholder="Buscar..." class="form-control" id="search" name="id">
+          </div>
+          <div class="col">
+            <input type="submit" class="btn btn-primary" value="Buscar">
+          </div>
         </div>
-        <div class="col">
-          <input type="submit" class="btn btn-primary" value="Buscar">
-        </div>
-      </div>
     </form>
+    <form action="/add_item" method="POST">
       <div class="row text-center pt-5 px-5">
-        <div class="col-4 bg-danger">
-          2 of 3
+        <div class="col-3">
+          {% if data%}
+          <input type="text" name="id" value="{{data.0}}" hidden>
+          {% endif%}
+          {% if not data%}
+          <input type="text" name="id" value="" hidden>
+          {% endif%}
+          {% if data %}
+          <input type="text" class="form-control" name="nombre" value="{{data.1}}">
+          {% endif%}
+          {% if not data %}
+          <input type="text" class="form-control" name="nombre" value="">
+          {% endif%}
         </div>
-        <div class="col-4 bg-primary">
-          3 of 3
+        <div class="col-3">
+          {% if data %}
+          <input type="text" class="form-control" name="precio" value="{{data.3}}" readonly>
+          {% endif%}
+          {% if not data %}
+          <input type="text" class="form-control" name="precio">
+          {% endif%}
         </div>
-        <div class="col-4 bg-primary">
-          3 of 3
+        <div class="col-3">
+          {% if data %}
+          <input type="text" class="form-control" name="cant">
+          {% endif%}
+          {% if not data %}
+          <input type="text" class="form-control" name="cant">
+          {% endif%}
+        </div>
+        <div class="col-2">
+          <input type="submit" class="btn btn-primary" value="Agregar">
         </div>
       </div>
+  </div>
+  </form>
+  <form action="/registrarVenta" method="POST">
+    <div class="col pt-5">
+      <table class="table rounded">
+        <thead class="thead-dark">
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Nombre</th>
+            <th scope="col">Cantidad</th>
+            <th scope="col">Precio</th>
+            <th scope="col">Total</th>
+            <th scope="col"></th>
+          </tr>
+        </thead>
+        <tbody>
+          {% if 'carrito' in session %}
+          {% for key, value in session['carrito'].items()%}
+          {% set cod = session['carrito'][key]['Codigo']%}
+          {% set nom = session['carrito'][key]['Nombre']%}
+          {% set cant = session['carrito'][key]['cantidad']%}
+          {% set pre = session['carrito'][key]['Precio']%}
+          {% set tot = session['carrito'][key]['total_price']%}
+          <tr>
+            <td scope="row" name="cod">{{cod}}</td>
+            <td scope="row">{{nom}}</td>
+            <td scope="row">{{cant}}</td>
+            <td scope="row">{{pre}}</td>
+            <td scope="row">{{tot}}</td>
+            <td> <a href="/eliminarItem/{{cod}}" class="btn btn-danger btn-sm">x</a> </td>
+          </tr>
+          {% endfor %}
+          {%endif%}
+        </tbody>
+      </table>
+    {% if 'carrito' in session%}
+    <div class="row aling-items-center">
+      <div  class="col-4 align-self-start">
+      </div>
+      <div  class="col-4 align-self-center">
+      </div>
+      <div  class="col-4 align-self-end">
+      <h2>Total: {{session['total']}}</h2>
     </div>
-    <form action="">
-      <div class="col pt-5">
-        <table class="table rounded">
-          <thead class="thead-dark">
-            <tr>
-              <th scope="col">#</th>
-              <th scope="col">Nombre</th>
-              <th scope="col">Cantidad</th>
-              <th scope="col">Precio</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <th scope="row"></th>
-              <td></td>
-              <td></td>
-              <td></td>
-            </tr>
-            <tr>
-              <th scope="row"></th>
-              <td></td>
-              <td></td>
-              <td></td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-      <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-        <input type="submit" class="btn btn-success me-md-2 mr-5" value="Confirmar compra">
-      </div>
-    </form>
+    </div>
+    {% endif %}
+    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+      <input type="submit" class="btn btn-success me-md-2 mr-5" value="Confirmar compra">
+    </div>
+  </form>
   </div>
 </body>
 

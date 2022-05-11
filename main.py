@@ -1,3 +1,4 @@
+from ssl import SSL_ERROR_SSL
 from flask import redirect, flash
 from flask import Flask, render_template, request, url_for
 from flask_mysqldb import MySQL
@@ -316,7 +317,107 @@ def reportes_venta():
 def ver_venta():
     return render_template('/Ventas/reportesVenta.html')
 
+@app.route('/buscar_item', methods=['POST'])
+def buscar_item():
+    if request.method:
+        cursor = mysql.connection.cursor()
+        mysql.connection.cursor()
+        print("CALL searchItem ('{}')".format(request.form['id']))
+        mysql.connection.commit()
+        if cursor.execute("CALL searchItem ('{}')".format(request.form['id'])) > 0:
+            a = cursor.fetchall()
+            #return render_template('/Citas/mostrarCitas.html', data=a[0])
+            return render_template('/Ventas/realizarVenta.html', data=a[0])
+        else:
+            return render_template('/Ventas/realizarVenta.html')
 
+
+@app.route('/add_item', methods=['POST'])
+def add_item():
+    cursor = mysql.connection.cursor()
+    mysql.connection.cursor()
+    #print(request.method)
+    if request.method:
+        a = []
+        a.append(request.form['id'])
+        a.append(request.form['nombre'])
+        a.append(request.form['precio'])
+        a.append(request.form['cant'])
+        #print(a)
+        if cursor.execute("CALL searchItem ('{}')".format(a[0])) > 0:
+            row = cursor.fetchone()
+            print(row)
+            itemArray = { a[0] : {'Codigo' : row[0],'Nombre' : row[1], 'Precio' : row[3], 'cantidad' : a[3], 'total_price': float(a[3]) * int(row[3])}}
+            print(itemArray)
+            total = 0
+
+            session.modified = True
+            if 'carrito' in session:
+                if row[0] in session['carrito']:
+                    for key, value in session['carrito'].items():
+                        if row[0] == key:
+                            #old_cant = session['carrito'][key]['cantidad']
+                            session['carrito'][key]['cantidad'] = a[3]
+                            session['carrito'][key]['total_price'] = float(a[3]) * int(row[3])
+                else:
+                    session['carrito'] = array_merge(session['carrito'], itemArray)
+
+                for key, value in session['carrito'].items():
+                    indidualCant = int(session['carrito'][key]['cantidad'])
+                    precio = float(session['carrito'][key]['total_price'])
+                    total = total+precio
+            else:
+                session['carrito'] = itemArray
+                total = total+float(a[3]) * int(row[3])
+        session['total'] = total
+        print(total)
+        return render_template('/Ventas/realizarVenta.html')
+
+def array_merge( carrito, item):
+    if isinstance(carrito, list) and isinstance(item, list):
+        return carrito+item
+    elif isinstance(carrito, dict) and isinstance(item, dict):
+        return dict(list(carrito.items() ) + list(item.items() ) )
+    elif isinstance(carrito, set) and isinstance(item, set):
+        return carrito.union(item)
+    return False
+
+@app.route('/registrarVenta', methods=['POST'])
+def registrarVenta():
+    if 'carrito' in session:
+        cursor = mysql.connection.cursor()
+        mysql.connection.cursor()
+        a = ""
+        if cursor.execute("SELECT RFC FROM Usuario WHERE usuario = '{}'".format(session['username']))  > 0:
+            user = cursor.fetchone()
+            user = user[0]
+            if cursor.execute("CALL getNumVenta")  > 0:
+                n = cursor.fetchone()
+                num = n[0]
+                print(num)
+            for key, value in session['carrito'].items():
+                a = a+session['carrito'][key]['Nombre']
+                print("CALL Venta('{}', '{}', '{}', '{}',""\"{}\""", '{}', '{}','{}')".format(num,user, session['carrito'][key]['Codigo'], session['carrito'][key]['cantidad'], time.strftime("%Y-%m-%d"), time.strftime("%H:%M:%S"), a, session['total']))
+                if cursor.execute("CALL Venta('{}', '{}', '{}', '{}',""\"{}\""", '{}', '{}','{}')".format(num,user, session['carrito'][key]['Codigo'], session['carrito'][key]['cantidad'], time.strftime("%Y-%m-%d"), time.strftime("%H:%M:%S"), a, session['total'])) > 0:
+                    mysql.connection.commit()
+                    a=""
+                    print('a')
+    if 'carrito' in session:
+        session.pop('carrito')
+        session.pop('total')
+    return redirect(url_for('ventas'))
+
+
+@app.route('/eliminarItem/<string:id>')
+def eliminarItem(id):
+    if id:
+        session.modified = True
+        for item in session['carrito'].items():
+            if item[0] == id:
+                session['carrito'].pop(item[0], None)
+                break
+
+        return render_template('/Ventas/realizarVenta.html')
 ### CITAS
 @app.route('/citas')
 def citas():
