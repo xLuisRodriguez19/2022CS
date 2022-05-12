@@ -1,12 +1,12 @@
 from ssl import SSL_ERROR_SSL
-from flask import redirect, flash
+from tkinter.messagebox import RETRY
+from flask import make_response, redirect, flash
 from flask import Flask, render_template, request, url_for
 from flask_mysqldb import MySQL
 from flask import session
 import os
 from werkzeug.utils import secure_filename
 import time
-import datetime
 #from ConectDB  import conectar
 app = Flask(__name__)
 app.secret_key = b'_5#y2L"F4Q8z\n\xec]/'
@@ -178,7 +178,8 @@ def productos():
         a = cursor.fetchall()
         for ae in a:
             print(ae)
-    return render_template('/Productos/mostrarProductos.html', data=a)
+        return render_template('/Productos/mostrarProductos.html', data=a)
+    return render_template('/Productos/mostrarProductos.html')
 
 @app.route('/mod_productos/<string:id>')
 def mod_productos(id):
@@ -236,7 +237,9 @@ def reg_productos():
     mysql.connection.commit()
     if cursor.execute("CALL getProveedores") > 0:
         a = cursor.fetchall()
-    return render_template('/Productos/registrarProductos.html', data=a)
+        return render_template('/Productos/registrarProductos.html', data=a)
+    else:
+        return render_template('/Proveedores/registrarProveedor.html')
 
 
 def allowed_file(filename):
@@ -308,14 +311,59 @@ def ventas():
 def realizar_venta():
     return render_template('/Ventas/realizarVenta.html')
 
-@app.route('/reportesVentas', methods=['GET'])
+@app.route('/reportesVentas')
 def reportes_venta():
-    print(request.method)
-    return render_template('/Ventas/reportesVenta.html')
+    cursor = mysql.connection.cursor()
+    mysql.connection.cursor()
+    print("CALL repVentas")
+    mysql.connection.commit()
+    if cursor.execute("CALL repVentas") > 0:
+        a = cursor.fetchall()
+            #return render_template('/Citas/mostrarCitas.html', data=a[0])
+        return render_template('/Ventas/reportesVenta.html', data=a)
+    else:
+        return render_template('/Ventas/reportesVenta.html')
+    #return render_template('/Ventas/reportesVenta.html')
 
-@app.route('/ver_venta', methods=['GET'])
-def ver_venta():
-    return render_template('/Ventas/reportesVenta.html')
+@app.route('/reportesCompras')
+def reportesCompras():
+    cursor = mysql.connection.cursor()
+    mysql.connection.cursor()
+    print("CALL repCompras")
+    mysql.connection.commit()
+    if cursor.execute("CALL repCompras") > 0:
+        a = cursor.fetchall()
+            #return render_template('/Citas/mostrarCitas.html', data=a[0])
+        return render_template('/Ventas/reportesCompra.html', data=a)
+
+@app.route('/ver_venta/<string:id>')
+def ver_venta(id):
+    cursor = mysql.connection.cursor()
+    mysql.connection.cursor()
+    print("CALL getVenta('{}')".format(id))
+    mysql.connection.commit()
+    if cursor.execute("CALL getVenta('{}')".format(id)) > 0:
+        a = cursor.fetchall()
+        print(a)
+            #return render_template('/Citas/mostrarCitas.html', data=a[0])
+        return render_template('/Ventas/verVentas.html', data=a[0])
+    else:
+        return render_template('/Ventas/reportesVenta.html')
+
+@app.route('/ver_compra/<string:id>')
+def ver_compra(id):
+    cursor = mysql.connection.cursor()
+    mysql.connection.cursor()
+    print("CALL getCompra('{}')".format(id))
+    mysql.connection.commit()
+    if cursor.execute("CALL getCompra('{}')".format(id)) > 0:
+        a = cursor.fetchall()
+        print(a)
+            #return render_template('/Citas/mostrarCitas.html', data=a[0])
+        return render_template('/Ventas/verCompras.html', data=a[0])
+    else:
+        return render_template('/Ventas/reportesVenta.html')
+
 
 @app.route('/buscar_item', methods=['POST'])
 def buscar_item():
@@ -407,6 +455,14 @@ def registrarVenta():
         session.pop('total')
     return redirect(url_for('ventas'))
 
+@app.route('/eliminarCarrito')
+def eliminarCarrito():
+    if 'carrito' in session:
+        session.pop('carrito')
+        session.pop('total')
+    return redirect(url_for('ventas'))
+
+
 
 @app.route('/eliminarItem/<string:id>')
 def eliminarItem(id):
@@ -425,12 +481,15 @@ def citas():
     mysql.connection.cursor()
     print("CALL getCitas")
     mysql.connection.commit()
+    b = []
     if cursor.execute("CALL getCitas") > 0:
         a = cursor.fetchall()
-        h = a[0][5].seconds//3600
-        minutes = (a[0][5].seconds//60)%60
+        
         for u in a:
-            b = [(u[0], u[1],u[2], u[3], u[4].strftime("%d-%m-%Y"), "{}:{}".format(h, minutes), u[6], u[7])]
+            h = u[5].seconds//3600
+            minutes = (u[5].seconds//60)%60
+            c = (u[0], u[1],u[2], u[3], u[4].strftime("%d-%m-%Y"), "{}:{}".format(h, minutes), u[6], u[7])
+            b.append(c)
             print(b)
         return render_template('/Citas/mostrarCitas.html', data=b)
     else:
@@ -438,6 +497,7 @@ def citas():
 
 @app.route('/mod_cita/<string:id>')
 def mod_cita(id):
+    print("id",id)
     if id:
         cursor = mysql.connection.cursor()
         print("CALL infoCita ('{}')".format(id))
@@ -449,11 +509,14 @@ def mod_cita(id):
             minutes = (a[0][5].seconds//60)%60
             if minutes == 0:
                 minutes="{}".format("00")
+            if len(str(h)) == 1:
+                h="{}".format("0"+str(h))
+            print("HORA ",h)
             for u in a:
                 b = (u[0], u[1],u[2], u[3], u[4].strftime("%Y-%m-%d"), "{}:{}".format(h, minutes), u[6])
                 print(b)
     #return render_template('/Citas/registrarCita.html', data=a[0])
-    return render_template('/Citas/modificarCita.html', data=b)
+        return render_template('/Citas/modificarCita.html', data=b)
 
 @app.route('/upd_cita', methods=['POST'])
 def upd_cita():
@@ -467,18 +530,26 @@ def upd_cita():
         a.append(request.form['h'])
         a.append(request.form['des'])
         print(a)
+        c = a[0]
+        print("C",c)
         cursor = mysql.connection.cursor()
         print("CALL updateCita('{}', '{}', '{}', '{}', '{}', '{}', '{}')".format(a[0], a[1], a[2], a[3], a[4], a[5], a[6]))
         mysql.connection.commit()
         if cursor.execute("CALL updateCita('{}', '{}', '{}', '{}', '{}', '{}', '{}')".format(a[0], a[1], a[2], a[3], a[4], a[5], a[6])) > 0:
             a = cursor.fetchone()
-        if a != 0:
+            print(a)
+        if not a:
             mysql.connection.commit()
             #a.pop()
             return redirect(url_for('citas'))
         else:
+            session.pop('_flashes', None)
             flash("Ya existe una cita en esa fecha y hora")
-            return redirect(url_for('reg_cita'))
+            #return redirect(url_for('reg_cita'))
+            #return render_template('/Citas/modificarCita.html')
+            #return redirect(url_for('mod_cita', id=a[0]))
+            print("c2",c)
+            return redirect(url_for('mod_cita', id=c))
             
 
 @app.route('/reg_cita')
@@ -507,14 +578,17 @@ def ins_cita():
         print("CALL Cita('{}', '{}', '{}', ""\"{}\""", '{}', '{}')".format(a[2], a[0], a[1], a[3], a[4], a[5]))
         if cursor.execute("CALL Cita('{}', '{}', '{}', ""\"{}\""", '{}', '{}')".format(a[2], a[0], a[1], a[3], a[4], a[5])) > 0:
             b = cursor.fetchone()
-            if b[0] is not 0:
+            print(b)
+            if not b:
                 mysql.connection.commit()
                 flash("cita registrada")
                 return redirect(url_for('citas'))
             else:
+                session.pop('_flashes', None)
                 flash("Ya existe una cita en esa fecha y hora")
                 return redirect(url_for('reg_cita'))
         else:
+            session.pop('_flashes', None)
             flash("Ya existe una cita en esa fecha y hora")
             return redirect(url_for('reg_cita'))
 
@@ -578,8 +652,12 @@ def upd_rep():
         cursor = mysql.connection.cursor()
         print("CALL updateRep('{}', '{}', '{}', '{}', '{}', '{}', '{}', '{}', '{}')".format(a[0], a[1], a[3], a[4], a[8], a[5], a[6], a[7], a[2]))
         mysql.connection.commit()
-        if cursor.execute("CALL updateRep('{}', '{}', '{}', '{}', '{}', '{}', '{}', '{}', '{}')".format(a[0], a[1], a[3], a[4], a[8], a[5], a[6], a[7], a[2])) > 0:
-            mysql.connection.commit()
+        if a[4]:
+            if cursor.execute("CALL updateRep('{}', '{}', '{}', '{}', '{}', '{}', '{}', '{}', '{}')".format(a[0], a[1], a[3], a[4], a[8], a[5], a[6], a[7], a[2])) > 0:
+                mysql.connection.commit()
+        else:
+            if cursor.execute("CALL updateRep('{}', '{}', '{}', ""\"{}\""", '{}', '{}', '{}', '{}', '{}')".format(a[0], a[1], a[3], '0000-00-00', a[8], a[5], a[6], a[7], a[2])) > 0:
+                mysql.connection.commit()
         #    #a.pop()
         return redirect(url_for('reparaciones'))
         #else:
@@ -594,10 +672,12 @@ def reg_reparacion():
     if cursor.execute("CALL getNumRepa()") > 0:
         a = cursor.fetchone()
         print(a)
-    if cursor.execute("CALL NumClientes()") > 0:
-        b = cursor.fetchall()
-        print(b)
-    return render_template('/Reparacion/registrarReparacion.html', data=a[0], data2=b)
+        if cursor.execute("CALL NumClientes()") > 0:
+            b = cursor.fetchall()
+            print(b)
+            return render_template('/Reparacion/registrarReparacion.html', data=a[0], data2=b)
+        else:
+            return render_template('/Reparacion/registrarReparacion.html', data=a[0])
 
 @app.route('/ins_rep', methods=['POST'])
 def ins_rep():
@@ -794,6 +874,78 @@ def act_prov(id):
         if cursor.execute("CALL actProv ('{}')".format(id)) > 0:
             mysql.connection.commit()
             return redirect(url_for('proveedores'))
+
+@app.route('/filtro', methods=['POST'])
+def filtro():
+    if request.method:
+        cursor = mysql.connection.cursor()
+        b = []
+        b.append(request.form['tipo'])
+        b.append(request.form['f'])
+        b.append(request.form['search'])
+        print(b)
+        a = []
+        if b[0] == 'usuario':
+            if b[1] == 'Nombre':
+                if cursor.execute("SELECT * FROM usuario WHERE NombreU LIKE '%{}%'".format(b[2])) > 0:
+                    a = cursor.fetchall()
+                    mysql.connection.commit()
+            if b[1] == 'RFC':
+                if cursor.execute("SELECT * FROM usuario WHERE RFC LIKE '%{}%'".format(b[2])) > 0:
+                    a = cursor.fetchall()
+                    mysql.connection.commit()
+            if b[1] == 'Telefono':
+                if cursor.execute("SELECT * FROM usuario WHERE TelefonoU LIKE '%{}%'".format(b[2])) > 0:
+                    a = cursor.fetchall()
+                    mysql.connection.commit()
+            return render_template('/Personal/mostrarPersonal.html', users=a)
+        elif b[0] == 'producto':
+            if b[1] == 'Nombre':
+                if cursor.execute("SELECT * FROM producto INNER JOIN img ON producto.IDprod = img.id and producto.NombreP like '%{}%'".format(b[2])) > 0:
+                    a = cursor.fetchall()
+                    mysql.connection.commit()
+            #return render_template('/Productos/mostrarProductos.html', data=a)
+            if b[1] == 'Codigo':
+                print("SELECT producto.IDprod, producto.NombreP, producto.CantidadP, producto.PrecioP, producto.ProveedorP, img.path FROM producto INNER JOIN img ON producto.IDprod = img.id and producto.IDprod = '%{}%'".format(b[2]))
+                if cursor.execute("SELECT * FROM producto INNER JOIN img ON producto.IDprod = img.id and producto.IDprod like  '%{}%'".format(b[2])) > 0:
+                    a = cursor.fetchall()
+                    mysql.connection.commit()
+            print(a)
+            return render_template('/Productos/mostrarProductos.html', data=a)
+        elif b[0] == 'citas':
+            if cursor.execute("SELECT * FROM cita WHERE fecha = ""\"{}\"""".format(b[2])) > 0:
+                a = cursor.fetchall()
+                mysql.connection.commit()
+            return render_template('/Citas/mostrarCitas.html', data=a)
+        elif b[0] == 'reparacion':
+            if cursor.execute("SELECT * FROM reparacion WHERE Estado LIKE '%{}%'".format(b[1])) > 0:
+                a = cursor.fetchall()
+                mysql.connection.commit()
+            return render_template('/Reparacion/mostrarReparaciones.html', data=a)
+        if b[0] == 'clientes':
+            if b[1] == 'Nombre':
+                if cursor.execute("SELECT * FROM cliente WHERE nombreCliente LIKE '%{}%'".format(b[2])) > 0:
+                    a = cursor.fetchall()
+                    mysql.connection.commit()
+            if b[1] == 'Telefono':
+                if cursor.execute("SELECT * FROM cliente WHERE numCliente LIKE '%{}%'".format(b[2])) > 0:
+                    a = cursor.fetchall()
+                    mysql.connection.commit()
+            return render_template('/Clientes/mostrarClientes.html', data=a)
+        if b[0] == 'proveedor':
+            if b[1] == 'Nombre':
+                if cursor.execute("SELECT * FROM proveedor WHERE NombreProv LIKE '%{}%'".format(b[2])) > 0:
+                    a = cursor.fetchall()
+                    mysql.connection.commit()
+            if b[1] == 'RFC':
+                if cursor.execute("SELECT * FROM proveedor WHERE RFCProv LIKE '%{}%'".format(b[2])) > 0:
+                    a = cursor.fetchall()
+                    mysql.connection.commit()
+            if b[1] == 'Telefono':
+                if cursor.execute("SELECT * FROM proveedor WHERE TelefonoProv LIKE '%{}%'".format(b[2])) > 0:
+                    a = cursor.fetchall()
+                    mysql.connection.commit()
+            return render_template('/Proveedores/mostrarProveedores.html', data=a)
 
 
 

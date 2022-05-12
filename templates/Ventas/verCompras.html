@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+          integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
+    <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='CSS/styles.css') }}">
+    <style>
+        #sidebar {
+            width: 20%;
+            height: 150vh;
+            background: #343a40;
+        }
+    </style>
+</head>
+<body>
+  {% if session['tipo'] == 'admin' %} {%include '/Navs/navAdmin.html'%} {% endif %}
+  {% if session['tipo'] == 'tec' %} <h1>es tec</h1> {%include '/Navs/navTecnico.html'%}{% endif %}
+  {% if session['tipo'] == 'ate' %} <h1>es ate</h1> {%include '/Navs/navAtencion.html'%}{% endif %}
+        <!--NAV-->
+        <div class="col-sm-10">
+            <br>
+            <h1 style="text-align: center">Compra</h1>
+            <div class="col">
+                <div class="row">
+                  <div class="col mb-3">
+                    <div class="card">
+                      <div class="card-body">
+                        <div class="e-profile">
+                          <div class="row">
+                            <div class="col-12 col-sm-auto mb-3">
+                            </div>
+                          </div>
+                          <div class="tab-content pt-3">
+                            <div class="tab-pane active">
+                              <form class="form" novalidate="" action="/upd_prod" method="POST" enctype="multipart/form-data">
+                                <div class="row">
+                                  <div class="col">
+                                    <div class="row">
+                                      <div class="col">
+                                        <div class="form-group">
+                                          <label>Folio</label>
+                                          <input class="form-control" type="text" name="cod" placeholder=" " value="{{data.0}}" readonly>
+                                        </div>
+                                      </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col">
+                                          <div class="form-group">
+                                            <label>Usuario que realizo la venta</label>
+                                            <input class="form-control" type="text" placeholder=" " name="name" value="{{data.1}}" readonly>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    <div class="row">
+                                      <div class="col">
+                                        <div class="form-group">
+                                          <label>Fecha</label>
+                                          <input class="form-control" type="date" placeholder=" " name="cant" value="{{data.5}}" readonly>
+                                        </div>
+                                      </div>
+                                    </div>
+                                    <div class="row">
+                                      <div class="col">
+                                        <div class="form-group">
+                                          <label>Hora</label>
+                                          <input class="form-control" type="time" placeholder=" " name="costo" value="{{data.6}}" readonly>
+                                        </div>
+                                      </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col">
+                                            <div class="form-group">
+                                                <label>Costo</label>
+                                                <input class="form-control" type="text " placeholder=" " name="costo" value="{{data.9}}" readonly>
+                                              </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                      <div class="col">
+                                          <div class="form-group">
+                                              <label>Codigo de producto</label>
+                                              <input class="form-control" type="text " placeholder=" " name="costo" value="{{data.3}}" readonly>
+                                            </div>
+                                      </div>
+                                  </div>
+                                    <div class="mb-3">
+                                        <label for="exampleFormControlTextarea1"
+                                            class="form-label">Descripción</label>
+                                        <textarea class="form-control" id="exampleFormControlTextarea1" readonly
+                                            rows="3" name="des">
+                                        {{data.7}}
+                                        </textarea>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col d-flex justify-content-end"><!--
+                                          <a class="btn btn-dark" data-toggle="modal" href="#ignismyModal">Guardar</a>
+                                          <div class="modal fade" id="ignismyModal" role="dialog">
+                                              <div class="modal-dialog">
+                                                  <div class="modal-content">
+                                                      <div class="modal-header">
+                                                          <button type="button" class="close" data-dismiss="modal" aria-label=""><span>×</span></button>
+                                                      </div>
+                                            
+                                                      <div class="modal-body">
+                                                        
+                                              <div class="thank-you-pop">
+                                                <img src="http://goactionstations.co.uk/wp-content/uploads/2017/03/Green-Round-Tick.png" alt="">
+                                                <p>Información guardada con éxito</p>
+                                                <a class="btn btn-secondary"  href="/vistas/Admin/administradores-admin.php">Regresar</a>
+                                              </div>
+                                                          
+                                                      </div>
+                                            
+                                                  </div>
+                                              </div>
+                                          </div>
+                                          
+                                        </div>-->
+                                        &nbsp; <span><a class="btn btn-secondary" href="/ventas">Regresar</a></span>
+                                      </div>
+                                </div>
+                              </form>
+            
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+        </div>
+</body>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous">
+</script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous">
+</script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"
+        integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous">
+</script>
+</html>

@@ -20,7 +20,7 @@
         <div class="col-sm-10">
              <!--CONTENT-->
              <br>
-             <h1 style="text-align: center;"> LISTA DE REPARACIONES</h1>
+             <h1 style="text-align: center;"> REPORTES DE VENTAS</h1>
      
              <!--filtro de busqueda-->
              <div class="container">
@@ -28,21 +28,19 @@
                      <div class="col-lg-12 card-margin">
                          <div class="card search-form">
                              <div class="card-body p-0">
-                                 <form id="search-form" action="/filtro" method="POST">
+                                 <form id="search-form">
                                      <div class="row">
                                          <div class="col-12">
                                              <div class="row no-gutters">
-                                                 <div class="col-lg-2"></div>
+                                                 <div class="col-lg-3 col-md-3 col-sm-12 p-0">
+                                                     <select class="form-control" id="exampleFormControlSelect1">
+                                                         <option>Folio</option>
+                                                         <option>Fecha</option>
+                                                         <option>a</option>
+                                                     </select>
+                                                 </div>
                                                  <div class="col-lg-8 col-md-6 col-sm-12 p-0">
-                                                     <input type="text" name="tipo" value="reparacion" hidden>
-                                                     <input type="text" name="search" value="reparacion" hidden>
-                                                     <select class="form-control" id="inputGroupSelect04" aria-label="Example select with button addon" name="f">
-                                                        <option selected>Estado...</option>
-                                                        <option>En espera</option>
-                                                        <option>En Taller</option>
-                                                        <option>Reparado</option>
-                                                        <option>Terminado</option>
-                                                      </select>
+                                                     <input type="text" placeholder="Buscar..." class="form-control" id="search" name="search">
                                                  </div>
                                                  <div class="col-lg-1 col-md-3 col-sm-12 p-0">
                                                      <button type="submit" class="btn btn-base">
@@ -69,64 +67,40 @@
                                      <table class="table user-list">
                                          <thead>
                                              <tr>
-                                             <th><span>No. de Reparación</span></th>
-                                             <th class="text-center"><span>Cliente</span></th>
+                                             <th><span>Folio</span></th>
+                                             <th class="text-center"><span>Fecha</span></th>
                                              <th class="text-center"><span>Descripción</span></th>
-                                             <th><span>Estado</span></th>
+                                             <th><span>Total</span></th>
                                              <th>&nbsp;</th>
                                              </tr>
                                          </thead>
                                          <tbody>
-                                            {% for u in data%}
-                                            {% if u.7 != 'Eliminado'%}
+                                             {% for u in data%}
                                              <tr>
                                                  <td class="text-center">
                                                      <span class="label label-default">{{u.0}}</span>
                                                  </td>
      
                                                  <td class="text-center">
-                                                     <span class="label label-default">{{u.8}}</span>
+                                                     <span class="label label-default">{{u.5}}</span>
                                                  </td>
                                                  <td class="text-center">
-                                                     <span class="label label-default">{{u.4}}</span>
+                                                     <span class="label label-default">{{u.7}}</span>
                                                  </td>
                                                  <td>
                                                      <!--<a href="#"> ROHL00000A1 </a>-->
-                                                     <span class="label label-default">{{u.7}}</span>
+                                                     <span class="label label-default">{{u.9}}</span>
                                                  </td>
                                                  <td style="width: 20%;">
-                                                     <span><a class="btn btn-success btn-sm" href="/mod_reparacion/{{u.0}}">Ver</a></span>
-                                                     <span><a><button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#exampleModal{{u.0}}">Eliminar</button></a></span>
+                                                     <span><a class="btn btn-success btn-sm mx-5 px-5" href="/ver_compra/{{u.0}}">Ver</a></span>
                                                  </td>
                                              </tr>
-                                             <!-- Modal -->
-                                             <div class="modal fade" id="exampleModal{{u.0}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                             <div class="modal-dialog">
-                                                 <div class="modal-content">
-                                                 <div class="modal-header">
-                                                     <h5 class="modal-title" id="exampleModalLabel">Eliminar reparación</h5>
-                                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                     <span aria-hidden="true">&times;</span>
-                                                     </button>
-                                                 </div>
-                                                 <div class="modal-body">
-                                                     ¿Desea eliminar la reparación: {{u.0}}?
-                                                 </div>
-                                                 <div class="modal-footer">
-                                                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-                                                     <a href="/eli_rep/{{u.0}}"><button type="button" class="btn btn-danger">Eliminar</button></a>
-                                                 </div>
-                                                 </div>
-                                             </div>
-                                             </div>
-                                             {% endif %}
                                              {% endfor %}
                                          </tbody>
                                      </table>
                                  </div>
                              </div>
                          </div>
-                         <span><a class="btn btn-dark btn-lg btn-block" href="{{ url_for('reg_reparacion') }}">Agregar</a></span>
                      </div>
                  </div>
              </div>

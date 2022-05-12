@@ -28,12 +28,14 @@
                      <div class="col-lg-12 card-margin">
                          <div class="card search-form">
                              <div class="card-body p-0">
-                                 <form id="search-form">
+                                 <form id="search-form" action="/filtro" method="POST">
                                      <div class="row">
                                          <div class="col-12">
                                              <div class="row no-gutters">
                                                  <div class="col-lg-2"></div>
                                                  <div class="col-lg-8 col-md-6 col-sm-12 p-0">
+                                                     <input type="text" name="tipo" value="citas" hidden>
+                                                     <input type="text" name="f" value="citas" hidden>
                                                      <input type="date" placeholder="Buscar..." class="form-control" id="search" name="search">
                                                  </div>
                                                  <div class="col-lg-1 col-md-3 col-sm-12 p-0">
@@ -51,15 +53,6 @@
                  </div>
              </div>    
              <!--filtro de busqueda-->
-             {% with messages = get_flashed_messages() %}
-            {% if messages %}
-            <ul class=flashes>
-                {% for message in messages %}
-                <li>{{ message }}</li>
-                {% endfor %}
-            </ul>
-            {% endif %}
-            {% endwith %}
              <div class="container">
                  <div class="row">
                      <div class="col-lg-12">
@@ -78,7 +71,6 @@
                                          </thead>
                                          <tbody>
                                             {% for u in data%}
-                                            {% if u.7 == 'Activo'%}
                                              <tr>
                                                  <td class="text-center">
                                                      <span class="label label-default">{{u.0}} </span>
@@ -119,7 +111,6 @@
                                                  </div>
                                              </div>
                                              </div>
-                                             {% endif %}
                                              {% endfor %}
                                          </tbody>
                                      </table>
