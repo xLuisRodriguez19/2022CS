@@ -12,7 +12,7 @@ app = Flask(__name__)
 app.secret_key = b'_5#y2L"F4Q8z\n\xec]/'
 app.config['MYSQL_HOST'] = 'localhost'
 app.config['MYSQL_USER'] = 'root'
-app.config['MYSQL_PASSWORD'] = 'root'
+app.config['MYSQL_PASSWORD'] = 'password'
 app.config['MYSQL_DB'] = 'energuia'
 mysql = MySQL(app)
 
@@ -716,7 +716,9 @@ def clientes():
     mysql.connection.commit()
     if cursor.execute("CALL getClientes") > 0:
         a = cursor.fetchall()
-    return render_template('/Clientes/mostrarClientes.html', data=a)
+        return render_template('/Clientes/mostrarClientes.html', data=a)
+    else:
+        return render_template('/Clientes/mostrarClientes.html')
 
 @app.route('/mod_cliente/<string:id>')
 def mod_cliente(id):
@@ -799,6 +801,8 @@ def proveedores():
     if cursor.execute("CALL getProveedores") > 0:
         a = cursor.fetchall()
         return render_template('/Proveedores/mostrarProveedores.html', data=a)
+    else:
+        return render_template('/Proveedores/mostrarProveedores.html')
 
 @app.route('/mod_proveedor/<id>')
 def mod_proveedor(id):
